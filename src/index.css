@@ -1,0 +1,38 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-brand-50: #eef6f4;
+  --color-brand-100: #d5e9e3;
+  --color-brand-200: #a9d2c8;
+  --color-brand-500: #1f7a68;
+  --color-brand-600: #186253;
+  --color-brand-700: #124b40;
+  --color-brand-900: #0b2e28;
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased;
+}
+
+@media print {
+  body {
+    @apply bg-white;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-break {
+    break-before: page;
+  }
+  .avoid-break {
+    break-inside: avoid;
+  }
+  @page {
+    size: A4;
+    margin: 18mm 16mm;
+  }
+}
