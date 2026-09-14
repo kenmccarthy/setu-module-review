@@ -52,9 +52,12 @@ to `main` (or manually via "Run workflow"). The build uses `VITE_BASE=/<repo-nam
 resolve under the project path, and the site is served at
 `https://<owner>.github.io/<repo-name>/`.
 
-Two one-time repository settings are required, otherwise the `deploy` job is rejected and Pages
+Three one-time repository settings are required, otherwise the `deploy` job is rejected and Pages
 serves the raw source instead of the built app:
 
-1. **Settings → Pages → Build and deployment → Source: "GitHub Actions"** (not "Deploy from a
+1. **Settings → General → Default branch: `main`.**
+2. **Settings → Pages → Build and deployment → Source: "GitHub Actions"** (not "Deploy from a
    branch").
-2. **Settings → General → Default branch: `main`.**
+3. **Settings → Environments → `github-pages` → Deployment branches and tags: allow `main`** (or
+   "No restriction"). GitHub creates this rule automatically from whichever branch first enabled
+   Pages; if that was not `main`, deployments from `main` are rejected before they start.

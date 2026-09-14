@@ -47,5 +47,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "::error::The Pages deployment was rejected. Open Settings → Pages → Build and deployment and set Source to 'GitHub Actions' (not 'Deploy from a branch'), then re-run this workflow: https://github.com/${{ github.repository }}/settings/pages"
+          echo "::error::The Pages deployment was rejected before it started. Check two settings: (1) Settings → Environments → github-pages → 'Deployment branches and tags' must allow 'main' (add it, or choose 'No restriction'); this rule is created automatically from whichever branch first enabled Pages. (2) Settings → Pages → Build and deployment → Source must be 'GitHub Actions'. Then re-run this workflow. https://github.com/${{ github.repository }}/settings/environments and https://github.com/${{ github.repository }}/settings/pages"
           exit 1
