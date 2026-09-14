@@ -48,5 +48,13 @@ tests/          vitest specs for src/logic and src/store
 ## Deployment
 
 `.github/workflows/deploy.yml` builds the app and publishes `dist/` to GitHub Pages on every push
-to `main` (enable Pages → Source: GitHub Actions in the repository settings). The build uses
-`VITE_BASE=/<repo-name>/` so assets resolve under the project path.
+to `main` (or manually via "Run workflow"). The build uses `VITE_BASE=/<repo-name>/` so assets
+resolve under the project path, and the site is served at
+`https://<owner>.github.io/<repo-name>/`.
+
+Two one-time repository settings are required, otherwise the `deploy` job is rejected and Pages
+serves the raw source instead of the built app:
+
+1. **Settings → Pages → Build and deployment → Source: "GitHub Actions"** (not "Deploy from a
+   branch").
+2. **Settings → General → Default branch: `main`.**
