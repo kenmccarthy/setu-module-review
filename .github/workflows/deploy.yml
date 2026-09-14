@@ -15,6 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # Creates a workflow-type Pages site if the repository has none yet. It cannot convert an
+      # existing "Deploy from a branch" site: that must be switched to "GitHub Actions" in
+      # Settings → Pages → Build and deployment → Source.
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -35,3 +41,11 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+  explain-failure:
+    needs: deploy
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "::error::The Pages deployment was rejected. Open Settings → Pages → Build and deployment and set Source to 'GitHub Actions' (not 'Deploy from a branch'), then re-run this workflow: https://github.com/${{ github.repository }}/settings/pages"
+          exit 1
