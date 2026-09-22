@@ -121,6 +121,7 @@ export const ProgrammeSchema = z.object({
   nfqLevel: str(),
   duration: str(),
   coordinator: str(),
+  /** Labelled "Faculty" in the UI; the key is unchanged so existing exports keep loading. */
   academicUnit: str(),
   reviewDate: str(),
   team: str(),

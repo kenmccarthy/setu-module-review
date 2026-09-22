@@ -21,7 +21,11 @@ export function CapabilitiesPage() {
   const c = GRADUATE_CAPABILITIES
   return (
     <>
-      <PageTitle part="Part A – Programme Review" title="2. Graduate Capabilities" />
+      <PageTitle
+        helpAnchor="part-a"
+        part="Part A – Programme Review"
+        title="2. Graduate Capabilities"
+      />
       <KeyQuestion>{c.keyQuestion}</KeyQuestion>
       <p className="text-sm text-slate-600">Consider three categories.</p>
 

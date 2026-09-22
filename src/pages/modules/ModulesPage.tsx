@@ -16,9 +16,10 @@ export function ModulesPage() {
   return (
     <>
       <PageTitle
+        helpAnchor="part-b"
         part="Part B – Module & Assessment Review"
         title="Modules"
-        lede="Review each module and its assessments. The assessment ratings feed the programme portfolio (Part A) and the synthesis (Part C) automatically."
+        lede="Sections 8–16 of the review are completed for each module and each of its assessments. Add as many modules as the programme needs. The assessment ratings feed the programme portfolio (Part A) and the synthesis (Part C) automatically."
       />
       <div className="flex items-center justify-between">
         <p className="text-sm text-slate-600">

@@ -9,6 +9,7 @@ export function CoherencePage() {
   return (
     <>
       <PageTitle
+        helpAnchor="part-a"
         part="Part A – Programme Review"
         title="7. Programme Coherence"
         lede={COHERENCE.note}

@@ -24,6 +24,7 @@ export function StatementPage() {
   return (
     <>
       <PageTitle
+        helpAnchor="part-d"
         part="Part D – AI Integration Statement"
         title="21. Developing the Programme AI Integration Statement"
         lede={STATEMENT_PURPOSE.intro}

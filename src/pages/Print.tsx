@@ -6,10 +6,12 @@ import {
   DASHBOARD_AREAS,
   OUTCOME_REVIEW,
   PROCESS_VISIBILITY,
+  PROGRESSION_PHASES,
   QUALITY,
   SUSTAINABILITY,
   VULNERABILITY,
   optionLabel,
+  type ProgressionPhase,
 } from '../content/scales'
 import { PROGRESSION_CAPABILITIES } from '../content/capabilities'
 import { COHERENCE } from '../content/programme'
@@ -56,7 +58,7 @@ export function PrintPage() {
           <Meta label="NFQ level" value={p.nfqLevel} />
           <Meta label="Duration" value={p.duration} />
           <Meta label="Coordinator" value={p.coordinator} />
-          <Meta label="Academic unit" value={p.academicUnit} />
+          <Meta label="Faculty" value={p.academicUnit} />
           <Meta label="Date of review" value={formatDate(p.reviewDate)} />
           <Meta label="Review team" value={p.team} />
         </dl>
@@ -161,7 +163,7 @@ export function PrintPage() {
           c.label,
           ...stages.map((s) =>
             (p.progression[`${c.id}:${s}`] ?? [])
-              .map((ph) => ph.charAt(0).toUpperCase() + ph.slice(1))
+              .map((ph) => optionLabel(PROGRESSION_PHASES, ph as ProgressionPhase))
               .join(', '),
           ),
         ])}

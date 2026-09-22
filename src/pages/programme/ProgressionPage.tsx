@@ -30,7 +30,11 @@ export function ProgressionPage() {
 
   return (
     <>
-      <PageTitle part="Part A – Programme Review" title="3. AI Capability Progression" />
+      <PageTitle
+        helpAnchor="part-a"
+        part="Part A – Programme Review"
+        title="3. AI Capability Progression"
+      />
       <KeyQuestion>{PROGRESSION.keyQuestion}</KeyQuestion>
       <Callout title="Note">
         <p>{PROGRESSION.note}</p>

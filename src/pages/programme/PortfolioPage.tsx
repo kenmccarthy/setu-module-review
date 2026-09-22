@@ -14,6 +14,7 @@ export function PortfolioPage() {
   return (
     <>
       <PageTitle
+        helpAnchor="priority-rule"
         part="Part A – Programme Review"
         title="4. Programme Assessment Portfolio"
         lede={PORTFOLIO.purpose}
@@ -137,8 +138,11 @@ export function PortfolioPage() {
         <KeyQuestion>{ASSURANCE_SECTION.keyQuestion}</KeyQuestion>
         <p className="text-sm text-slate-600">Consider:</p>
         <ul className="grid list-disc gap-0.5 pl-6 text-sm text-slate-700 sm:grid-cols-2">
-          {ASSURANCE_EVIDENCE.map((e) => (
-            <li key={e.id}>{e.label.toLowerCase()};</li>
+          {ASSURANCE_EVIDENCE.map((e, i) => (
+            <li key={e.id}>
+              {e.label.toLowerCase()}
+              {i === ASSURANCE_EVIDENCE.length - 1 ? '.' : ';'}
+            </li>
           ))}
         </ul>
         <div className="flex flex-wrap gap-2">
