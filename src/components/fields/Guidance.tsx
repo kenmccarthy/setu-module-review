@@ -41,12 +41,13 @@ export function Callout({
 }: {
   title?: string
   children: React.ReactNode
-  tone?: 'info' | 'warn'
+  tone?: 'info' | 'warn' | 'note'
 }) {
-  const cls =
-    tone === 'warn'
-      ? 'border-amber-300 bg-amber-50 text-amber-900'
-      : 'border-brand-200 bg-brand-50 text-brand-900'
+  const cls = {
+    info: 'border-brand-200 bg-brand-50 text-brand-900',
+    warn: 'border-amber-300 bg-amber-50 text-amber-900',
+    note: 'border-sky-300 bg-sky-50 text-sky-900',
+  }[tone]
   return (
     <div className={`rounded-md border px-4 py-3 text-sm ${cls}`}>
       <p className="mb-1 font-semibold">{title}</p>

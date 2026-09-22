@@ -16,8 +16,10 @@ export const TOOL_PURPOSE = {
   ],
   structure:
     'The module reviews provide detailed evidence which feeds into the programme-level review. The final stage brings both together to support programme-level discussion, decision-making and action planning.',
-  guidingPrinciple:
+  guidingPrinciples: [
     'Can we have confidence that our students are developing and demonstrating the knowledge, skills, judgement and capabilities expected of our graduates in an AI-enabled world?',
+    'Can we have confidence that our students are developing the critical awareness, ethical judgement and sense of responsibility needed to engage with AI appropriately within their discipline, profession and wider society?',
+  ],
 }
 
 export const CONTEXT = {
@@ -60,7 +62,7 @@ export const GRADUATE_CAPABILITIES = {
 
 export const PROGRESSION = {
   keyQuestion: 'Where and how do students develop AI capability across the programme?',
-  note: 'AI capability should be considered developmentally rather than as a single intervention.',
+  note: 'Students should have opportunities to build and deepen their AI capabilities as they progress through the programme, rather than encountering AI learning as a one-off activity.',
   instruction: 'For each stage/year, identify where students encounter each capability.',
   reflection: 'Does the programme demonstrate a coherent progression in AI capability?',
   prompts: [
@@ -82,8 +84,8 @@ export const VULNERABILITY_SECTION = {
   keyQuestion:
     'To what extent could a student use current Generative AI to produce an acceptable assessment output without adequately demonstrating the intended learning?',
   important: [
-    'AI vulnerability does not automatically mean that an assessment needs to be redesigned.',
-    'Vulnerability should always be considered alongside learning assurance.',
+    'A high level of AI vulnerability does not necessarily mean an assessment needs to be redesigned.',
+    'Consider AI vulnerability alongside learning assurance. An assessment may be highly susceptible to AI assistance while still providing sufficient evidence of student learning.',
   ],
 }
 
@@ -114,7 +116,7 @@ export const COHERENCE = {
     { id: 'progressive', text: 'Are students progressively developing AI capability?' },
     {
       id: 'vulnerable_formats',
-      text: 'Are students repeatedly completing assessment formats that are particularly vulnerable to AI substitution?',
+      text: 'Are students repeatedly completing assessments where AI could reduce the visibility of their own learning and capabilities?',
     },
     {
       id: 'protected_opportunities',

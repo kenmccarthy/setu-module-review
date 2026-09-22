@@ -12,6 +12,9 @@ specification:
 - **Part D – AI Integration Statement**: a first draft of every statement section is generated from
   the review responses for the team to amend and approve, plus the external review evidence table.
 - **Print / Save as PDF**: a print-styled view of the whole review.
+- **Help & Guide**: a user guide at `/help` in the app (also linked from the landing page and
+  from the pages teams most often stall on), covering how to run the review, how data is saved
+  and shared, and the rules behind every suggested rating and pattern.
 
 ## How data is stored
 

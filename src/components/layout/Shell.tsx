@@ -5,6 +5,9 @@ import { downloadReview, parseReviewJson, readFileText } from '../../store/io'
 import { NAV } from './nav'
 import { Button } from '../fields'
 
+/** The badge beside a nav item is a section number, not a count. */
+const sectionLabel = (number: string) => `Section${number.includes('–') ? 's' : ''} ${number}`
+
 export function Shell() {
   const review = useReviewStore((s) => s.review)
   const started = useReviewStore((s) => s.started)
@@ -95,7 +98,13 @@ export function Shell() {
                       }
                     >
                       {item.number && (
-                        <span className="w-8 shrink-0 text-xs text-slate-400">{item.number}</span>
+                        <span
+                          className="w-8 shrink-0 text-xs text-slate-400"
+                          title={sectionLabel(item.number)}
+                          aria-label={sectionLabel(item.number)}
+                        >
+                          {item.number}
+                        </span>
                       )}
                       <span>{item.label}</span>
                     </NavLink>

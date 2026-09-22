@@ -58,7 +58,7 @@ export function suggestDashboard(
 
   const progression = (() => {
     const team = review.programme.progressionRating
-    if (team) return { value: team, reason: 'Team rating from Part A §3.' }
+    if (team) return { value: team, reason: 'Team rating from Part A section 3.' }
     const p = patterns['no_progression']
     if (p.status === 'unknown')
       return { value: '' as const, reason: 'Progression map not completed.' }
@@ -71,7 +71,10 @@ export function suggestDashboard(
   const protectedArea = (() => {
     const p = patterns['protected_unassessed']
     if (p.status === 'unknown')
-      return { value: '' as const, reason: 'No protected capabilities selected in Part A §2.' }
+      return {
+        value: '' as const,
+        reason: 'No protected capabilities selected in Part A section 2.',
+      }
     if (p.status === 'clear')
       return {
         value: 'strong' as const,
@@ -90,7 +93,7 @@ export function suggestDashboard(
 
   const coherence = (() => {
     const team = review.programme.coherenceRating
-    if (team) return { value: team, reason: 'Team rating from Part A §7.' }
+    if (team) return { value: team, reason: 'Team rating from Part A section 7.' }
     const flags = [patterns['type_overused'], patterns['volume']].filter(
       (p) => p.status === 'triggered' || p.status === 'possible',
     )

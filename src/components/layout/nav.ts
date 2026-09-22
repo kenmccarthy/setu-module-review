@@ -10,6 +10,10 @@ export interface NavGroup {
 
 export const NAV: NavGroup[] = [
   {
+    label: 'Getting started',
+    items: [{ to: '/help', label: 'Help & Guide' }],
+  },
+  {
     label: 'Part A – Programme Review',
     items: [
       { to: '/programme/context', label: 'Programme Context', number: '1' },

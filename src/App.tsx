@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Shell } from './components/layout/Shell'
 import { Home } from './pages/Home'
+import { HelpPage } from './pages/Help'
 import { ContextPage } from './pages/programme/ContextPage'
 import { CapabilitiesPage } from './pages/programme/CapabilitiesPage'
 import { ProgressionPage } from './pages/programme/ProgressionPage'
@@ -23,6 +24,7 @@ export default function App() {
     <Routes>
       <Route element={<Shell />}>
         <Route index element={<Home />} />
+        <Route path="help" element={<HelpPage />} />
         <Route path="programme">
           <Route index element={<Navigate to="context" replace />} />
           <Route path="context" element={<ContextPage />} />

@@ -41,7 +41,7 @@ export const AI_POSITIONS = [
   },
   {
     value: 'not_relevant',
-    label: 'AI Not Materially Relevant',
+    label: 'AI Not Relevant',
     description: 'AI does not significantly affect the nature or validity of the assessment.',
     tone: 0,
   },
@@ -131,10 +131,15 @@ export const SUSTAINABILITY = [
 ] as const satisfies readonly ScaleOption[]
 export type Sustainability = (typeof SUSTAINABILITY)[number]['value']
 
+/**
+ * Progression phases. The initials are shown in the progression map, so they must stay distinct:
+ * I, P, E, D. The stored value of the third phase remains 'developed' so that reviews already
+ * saved in a browser, and JSON exported before the label changed, keep validating.
+ */
 export const PROGRESSION_PHASES = [
   { value: 'introduced', label: 'Introduced' },
   { value: 'practised', label: 'Practised' },
-  { value: 'developed', label: 'Developed' },
+  { value: 'developed', label: 'Extended' },
   { value: 'demonstrated', label: 'Demonstrated' },
 ] as const
 export type ProgressionPhase = (typeof PROGRESSION_PHASES)[number]['value']

@@ -34,7 +34,7 @@ export function ActionsPage() {
 
       <Section
         title="Actions"
-        intro="For each action record the action, programme/module, priority, responsible person/team, timescale and review point."
+        intro="For each item record the action, programme/module, priority, responsible person/team, timescale and review point."
       >
         <div className="flex flex-wrap items-center gap-2">
           <label className="text-sm text-slate-600">

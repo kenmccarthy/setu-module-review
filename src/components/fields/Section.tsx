@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom'
+import type { HelpAnchor } from '../../content/help'
+
 export function Section({
   number,
   title,
@@ -38,17 +41,30 @@ export function PageTitle({
   part,
   title,
   lede,
+  helpAnchor,
 }: {
   part?: string
   title: string
   lede?: React.ReactNode
+  /** Section in the Help & Guide to link to, e.g. "priority-rule". */
+  helpAnchor?: HelpAnchor
 }) {
   return (
     <div className="space-y-1">
       {part && (
         <p className="text-xs font-semibold uppercase tracking-wider text-brand-600">{part}</p>
       )}
-      <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
+        {helpAnchor && (
+          <Link
+            className="no-print text-sm font-medium text-brand-700 hover:underline"
+            to={`/help#${helpAnchor}`}
+          >
+            Guide for this section
+          </Link>
+        )}
+      </div>
       {lede && <p className="max-w-3xl text-sm text-slate-600">{lede}</p>}
     </div>
   )

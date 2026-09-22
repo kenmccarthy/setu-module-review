@@ -17,6 +17,7 @@ export function PatternsPage() {
   return (
     <>
       <PageTitle
+        helpAnchor="suggestions"
         part="Part C – Programme Synthesis"
         title="18. Pattern Identification"
         lede={SYNTHESIS.patternsIntro}

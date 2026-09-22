@@ -59,6 +59,7 @@ export function AssessmentPage() {
     <>
       <div className="flex flex-wrap items-end justify-between gap-2">
         <PageTitle
+          helpAnchor="part-b"
           part={`Part B – ${module.code ? module.code + ' ' : ''}${module.title || 'Module'}`}
           title={a.title || 'Assessment'}
         />

@@ -16,6 +16,7 @@ export function DashboardPage() {
   return (
     <>
       <PageTitle
+        helpAnchor="suggestions"
         part="Part C – Programme Synthesis"
         title="17. Bringing the Evidence Together"
         lede={SYNTHESIS.intro}

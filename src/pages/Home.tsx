@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { TOOL_PURPOSE } from '../content/programme'
 import { useReviewStore } from '../store/reviewStore'
 import { parseReviewJson, readFileText } from '../store/io'
@@ -136,13 +136,25 @@ export function Home() {
           </li>
         </ol>
         <p className="text-sm text-slate-700">{TOOL_PURPOSE.structure}</p>
+        <p className="text-sm text-slate-700">
+          New to the tool?{' '}
+          <Link className="font-medium text-brand-700 underline" to="/help">
+            Read the Help &amp; Guide
+          </Link>{' '}
+          for a walkthrough of each part, how the review is saved and shared, and how the suggested
+          ratings are worked out.
+        </p>
       </section>
 
-      <Callout title="Guiding principle">
-        <p>{TOOL_PURPOSE.guidingPrinciple}</p>
+      <Callout title="Guiding principles">
+        <ul className="list-disc space-y-1 pl-5">
+          {TOOL_PURPOSE.guidingPrinciples.map((principle) => (
+            <li key={principle}>{principle}</li>
+          ))}
+        </ul>
       </Callout>
 
-      <Callout title="Where your data lives">
+      <Callout title="Where your data lives" tone="note">
         <p>
           Everything you enter is saved automatically in this browser only. Nothing is sent to a
           server. Use <strong>Export</strong> to save a JSON file for backup or to share with

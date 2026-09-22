@@ -54,7 +54,7 @@ export function ContextPage() {
             onChange={(coordinator) => update({ coordinator })}
           />
           <TextInput
-            label="Academic unit"
+            label="Faculty"
             value={p.academicUnit}
             onChange={(academicUnit) => update({ academicUnit })}
           />

@@ -325,7 +325,7 @@ export function generateEvidenceSummary(review: Review): EvidenceRow[] {
   const generated: Record<EvidenceAreaId, { position: string; evidence: string }> = {
     disciplinary_impact: {
       position: p.disciplineReflection.trim() || approachPhrase(review),
-      evidence: 'Part A §1 programme context; Statement §1',
+      evidence: 'Part A section 1 programme context; Statement section 1',
     },
     protected: {
       position: joinList(p.protectedCapabilities.map((c) => c.label)) || '—',
@@ -349,11 +349,11 @@ export function generateEvidenceSummary(review: Review): EvidenceRow[] {
     },
     progression: {
       position: q(dash.progression),
-      evidence: 'Part A §3 AI capability progression map',
+      evidence: 'Part A section 3 AI capability progression map',
     },
     resilience: {
       position: `${q(dash.resilience)}${priority.length ? ` – ${plural(priority.length, 'assessment')} prioritised` : ''}`,
-      evidence: 'Part A §4–6 assessment portfolio and Vulnerability × Assurance check',
+      evidence: 'Part A sections 4–6 assessment portfolio and Vulnerability × Assurance check',
     },
     assurance: {
       position: q(dash.assurance),
@@ -376,13 +376,13 @@ export function generateEvidenceSummary(review: Review): EvidenceRow[] {
     },
     consistency: {
       position: q(dash.consistency),
-      evidence: 'Part A §7 programme coherence; common AI position categories',
+      evidence: 'Part A section 7 programme coherence; common AI position categories',
     },
     actions: {
       position: review.synthesis.actions.length
         ? `${plural(review.synthesis.actions.length, 'action')}: ${joinList([...new Set(review.synthesis.actions.map((a) => optionLabel(ACTION_CATEGORIES, a.category)).filter(Boolean))])}`
         : 'No actions recorded',
-      evidence: 'Part C §20 action plan',
+      evidence: 'Part C section 20 action plan',
     },
   }
 
