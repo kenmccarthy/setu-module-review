@@ -55,6 +55,12 @@ to `main` (or manually via "Run workflow"). The build uses `VITE_BASE=/<repo-nam
 resolve under the project path, and the site is served at
 `https://<owner>.github.io/<repo-name>/`.
 
+The same deployment also publishes the original single-review tool (v1) at
+`https://<owner>.github.io/<repo-name>/classic/`, built from the fixed commit in `CLASSIC_REF` in
+`deploy.yml`, so it stays available for review and comparison while the tool is redeveloped. Both
+builds share the browser origin: v1 keeps its `localStorage` key (`setu-ai-review`) and later
+versions must only read it, never write it.
+
 Three one-time repository settings are required, otherwise the `deploy` job is rejected and Pages
 serves the raw source instead of the built app:
 

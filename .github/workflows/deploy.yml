@@ -7,6 +7,9 @@ permissions:
   contents: read
   pages: write
   id-token: write
+env:
+  # Last commit of the original single-review tool (v1), served at /classic/.
+  CLASSIC_REF: 925fa573e104c7018bd5e8658d235e035933b935
 concurrency:
   group: pages
   cancel-in-progress: true
@@ -29,6 +32,17 @@ jobs:
       - run: npm run build
         env:
           VITE_BASE: /${{ github.event.repository.name }}/
+      # The original (v1) tool stays available for comparison at /<repo>/classic/. It is built from
+      # a fixed commit so later changes on main never alter it; bump CLASSIC_REF only to ship a v1 fix.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.CLASSIC_REF }}
+          path: classic-src
+      - run: npm ci && npm run build
+        working-directory: classic-src
+        env:
+          VITE_BASE: /${{ github.event.repository.name }}/classic/
+      - run: cp -r classic-src/dist dist/classic
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
