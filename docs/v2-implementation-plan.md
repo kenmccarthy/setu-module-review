@@ -164,4 +164,9 @@ One v1 review → one ProgrammeReview + one ModuleReview per v1 module (linked: 
 - [x] Stage 1 — v2 schemas (`src/model/v2`), frozen v1 schema (`src/model/legacy/v1.ts`), migration
       (`src/migrate`), multi-review storage (`src/store/library.ts`), import dispatch
       (`src/store/importV2.ts`), exchange logic (`src/logic/v2/exchange.ts`) and tests. No UI changes yet.
-- [ ] Stages 2–8.
+- [x] Stage 2 — new landing page (`src/features/home`), saved reviews, legacy-review banner
+      (backup + bring in), workspace store (`src/store/workspace.ts`), context-aware navigation
+      (`src/components/layout/nav.ts`, `Shell.tsx`), review routes with placeholder sections. The v1
+      pages are unrouted (kept as source for porting) so nothing in the app writes the v1 key; a test
+      checks the v1 store is not reachable from `main.tsx`.
+- [ ] Stages 3–8.

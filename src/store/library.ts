@@ -7,12 +7,16 @@
  * Nothing here ever writes that key.
  */
 import { z } from 'zod'
+import { migrateV1Review } from '../migrate/v1ToV2'
+import { uid } from '../model/v2/defaults'
 import {
   AnyReviewSchema,
   SCHEMA_VERSION_V2,
   type AnyReview,
+  type LibraryBundle,
   type ReviewKind,
 } from '../model/v2/schema'
+import type { ParsedImport } from './importV2'
 
 export const V1_STORAGE_KEY = 'setu-ai-review'
 export const INDEX_KEY = 'setu-air:v2:index'
@@ -99,4 +103,123 @@ export function markV1Migrated(storage: Storage, v1Id: string, v1UpdatedAt: stri
   const index = readIndex(storage)
   index.migratedFromV1[v1Id] = v1UpdatedAt
   writeIndex(storage, index)
+}
+
+// ── Import and export ────────────────────────────────────────────────────────────────────────
+
+export type ConflictChoice = 'replace' | 'keep-both'
+
+export type LibraryImportResult =
+  | { ok: true; saved: AnyReview[]; message: string }
+  /** A packet meant for a particular review; the caller asks which review should receive it. */
+  | { ok: true; saved: []; packet: ParsedPacket; message: string }
+  | { ok: false; error: string }
+
+type ParsedPacket = Extract<ParsedImport, { type: 'module-contribution' | 'programme-prompts' }>
+
+const describe = (n: number, what: string) => `${n} ${what}${n === 1 ? '' : 's'}`
+
+/**
+ * Save the reviews in an imported file as new saved reviews. A v1 review is migrated into new
+ * reviews and never replaces anything; a v2 review whose id is already saved is replaced or kept
+ * alongside, as `onConflict` decides. Nothing is written if the file is invalid.
+ */
+export function importIntoLibrary(
+  storage: Storage,
+  parsed: ParsedImport,
+  onConflict: (existing: IndexEntry, incoming: AnyReview) => ConflictChoice,
+): LibraryImportResult {
+  if (!parsed.ok) return parsed
+  switch (parsed.type) {
+    case 'module-contribution':
+      return {
+        ok: true,
+        saved: [],
+        packet: parsed,
+        message: 'This file is a module contribution. Import it from a programme review.',
+      }
+    case 'programme-prompts':
+      return {
+        ok: true,
+        saved: [],
+        packet: parsed,
+        message: 'This file holds programme prompts. Import it from a module review.',
+      }
+    case 'v1-review': {
+      const { programme, modules } = migrateV1Review(parsed.review)
+      for (const r of [...modules, programme]) saveReview(storage, r)
+      return {
+        ok: true,
+        saved: [programme, ...modules],
+        message: `Brought in a review from the previous version as 1 programme review and ${describe(modules.length, 'module review')}.`,
+      }
+    }
+    case 'review':
+    case 'library': {
+      const incoming = parsed.type === 'review' ? [parsed.review] : parsed.bundle.reviews
+      const index = readIndex(storage)
+      const saved = incoming.map((review) => {
+        const existing = index.reviews.find((r) => r.id === review.id)
+        const r =
+          existing && onConflict(existing, review) === 'keep-both'
+            ? { ...review, id: uid(), updatedAt: new Date().toISOString() }
+            : review
+        saveReview(storage, r)
+        return r
+      })
+      return { ok: true, saved, message: `Imported ${describe(saved.length, 'review')}.` }
+    }
+  }
+}
+
+export function libraryBundle(
+  storage: Storage,
+  exportedAt = new Date().toISOString(),
+): LibraryBundle {
+  return {
+    packetType: 'library',
+    schemaVersion: SCHEMA_VERSION_V2,
+    exportedAt,
+    reviews: listReviews(storage)
+      .map((e) => loadReview(storage, e.id))
+      .filter((r): r is AnyReview => !!r),
+  }
+}
+
+// ── Browser storage ──────────────────────────────────────────────────────────────────────────
+
+/** In-memory Storage used when the browser blocks localStorage (e.g. some private windows). */
+export class MemoryStorage implements Storage {
+  private data = new Map<string, string>()
+  get length() {
+    return this.data.size
+  }
+  clear() {
+    this.data.clear()
+  }
+  getItem(key: string) {
+    return this.data.get(key) ?? null
+  }
+  key(i: number) {
+    return [...this.data.keys()][i] ?? null
+  }
+  removeItem(key: string) {
+    this.data.delete(key)
+  }
+  setItem(key: string, value: string) {
+    this.data.set(key, value)
+  }
+}
+
+/** The browser's localStorage if it works, otherwise an in-memory store (`persistent: false`). */
+export function browserStorage(): { storage: Storage; persistent: boolean } {
+  try {
+    const s = window.localStorage
+    const probe = 'setu-air:v2:probe'
+    s.setItem(probe, '1')
+    s.removeItem(probe)
+    return { storage: s, persistent: true }
+  } catch {
+    return { storage: new MemoryStorage(), persistent: false }
+  }
 }

@@ -19,6 +19,12 @@ export function HelpPage() {
   return (
     <>
       <PageTitle title="Help & Guide" lede={HELP_INTRO} />
+      <Callout title="This guide is being updated" tone="warn">
+        <p>
+          It still describes the previous, combined review (Parts A–D), which remains available as
+          the Classic tool. A guide to the new Programme and Module reviews will replace it.
+        </p>
+      </Callout>
 
       <nav
         aria-label="Contents"
