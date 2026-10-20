@@ -178,4 +178,10 @@ One v1 review → one ProgrammeReview + one ModuleReview per v1 module (linked: 
       cards with the three core questions and an optional "Explore Assessment Design in More Detail"
       holding the v1 parameters, optional individual learning-outcome review, pure summary and
       progress (`src/logic/v2/moduleSummary.ts`), module contribution export. v1 module pages removed.
-- [ ] Stages 5–8.
+- [x] Stage 5 — Connected workflow: Module contributions page in programme reviews and Programme
+      priorities page in module reviews (`src/features/programme/ModuleContributions.tsx`,
+      `src/features/module/ProgrammePriorities.tsx`). Import from a file (packet or whole review) or
+      from reviews saved in the same browser; re-imports are recognised, newer/older versions replace
+      only after confirmation, programme notes and module responses are kept. Helpers in
+      `src/store/exchangeImport.ts`; round-trip tests in `tests/connected.test.ts`.
+- [ ] Stages 6–8.

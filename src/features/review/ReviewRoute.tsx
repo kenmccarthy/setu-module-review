@@ -22,6 +22,8 @@ import {
   ModuleTeaching,
 } from '../module/sections'
 import { ModuleSummary } from '../module/ModuleSummary'
+import { ImportedProgrammePriorities } from '../module/ProgrammePriorities'
+import { ModuleContributions } from '../programme/ModuleContributions'
 
 /** Opens the review named in the URL and renders the requested section. */
 export function ReviewRoute({ kind }: { kind: ReviewKind }) {
@@ -56,7 +58,10 @@ export function ReviewRoute({ kind }: { kind: ReviewKind }) {
   if (!review) return null
   if (review.kind !== kind) return <Navigate to={reviewPath(review.kind, review.id)} replace />
   if (kind === 'programme' && section in PROGRAMME_PAGES) {
-    const meta = PROGRAMME_SECTIONS.find((s) => s.id === section)!
+    const meta = PROGRAMME_SECTIONS.find((s) => s.id === section) ?? {
+      id: section,
+      label: EXTRA[section],
+    }
     const Page = PROGRAMME_PAGES[section]
     return (
       <>
@@ -72,7 +77,10 @@ export function ReviewRoute({ kind }: { kind: ReviewKind }) {
     )
   }
   if (kind === 'module' && section in MODULE_PAGES) {
-    const meta = MODULE_SECTIONS.find((s) => s.id === section)!
+    const meta = MODULE_SECTIONS.find((s) => s.id === section) ?? {
+      id: section,
+      label: EXTRA[section],
+    }
     const Page = MODULE_PAGES[section]
     return (
       <>
@@ -89,6 +97,7 @@ export function ReviewRoute({ kind }: { kind: ReviewKind }) {
 }
 
 const MODULE_PAGES: Record<string, () => React.ReactNode> = {
+  'programme-priorities': ImportedProgrammePriorities,
   context: ModuleContext,
   outcomes: ModuleOutcomes,
   teaching: ModuleTeaching,
@@ -98,6 +107,7 @@ const MODULE_PAGES: Record<string, () => React.ReactNode> = {
 }
 
 const PROGRAMME_PAGES: Record<string, () => React.ReactNode> = {
+  contributions: ModuleContributions,
   context: ProgrammeContext,
   capabilities: ProgrammeCapabilities,
   progression: ProgrammeProgression,

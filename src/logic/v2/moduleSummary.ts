@@ -21,7 +21,7 @@ const answer = <T extends string>(options: readonly { value: T; label: string }[
 
 const nonEmpty = (...xs: string[]) => xs.map((x) => x.trim()).filter(Boolean)
 
-export const assessmentName = (a: ModuleAssessment, i: number) =>
+export const assessmentName = (a: Pick<ModuleAssessment, 'title'>, i: number) =>
   a.title.trim() || `Assessment ${i + 1}`
 
 function assessmentDetails(a: ModuleAssessment) {

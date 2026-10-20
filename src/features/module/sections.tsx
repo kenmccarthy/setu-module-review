@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { reviewPath } from '../../components/layout/nav'
 import {
   Button,
   Choice,
@@ -258,9 +260,22 @@ export function ModuleAssessments() {
 export function ModuleReflection() {
   const { review: m, set } = useModuleReview()
   const legacy = useLegacy()
+  const prompts = m.programmePriorities.reduce((n, p) => n + p.prompts.length, 0)
   return (
     <>
       <KeyQuestion>{REFLECTION.heading}</KeyQuestion>
+      {prompts > 0 && (
+        <p className="rounded-md bg-slate-100 px-3 py-2 text-sm text-slate-700">
+          You have {prompts} optional prompt{prompts === 1 ? '' : 's'} from a programme team to
+          consider.{' '}
+          <Link
+            className="font-medium text-brand-700 underline"
+            to={reviewPath('module', m.id, 'programme-priorities')}
+          >
+            See programme priorities
+          </Link>
+        </p>
+      )}
       <Section title="Reflection">
         <TextArea
           label={REFLECTION.workingWell}
