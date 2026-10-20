@@ -13,15 +13,14 @@ export type HelpBlock =
 /** Anchor ids. `PageTitle`'s `helpAnchor` is typed against these, so a link cannot go stale. */
 export const HELP_SECTION_IDS = [
   'purpose',
-  'before-you-start',
-  'part-a',
-  'part-b',
-  'part-c',
-  'part-d',
-  'priority-rule',
-  'suggestions',
+  'choosing',
+  'programme',
+  'module',
+  'connecting',
+  'statement',
+  'previous-version',
   'saving',
-  'outputs',
+  'accessibility',
   'faq',
 ] as const
 export type HelpAnchor = (typeof HELP_SECTION_IDS)[number]
@@ -33,348 +32,314 @@ export interface HelpSection {
 }
 
 export const HELP_INTRO =
-  'This guide explains what the review asks for, how to work through it as a team, where your answers are stored, and how the tool works out its suggested ratings. You can print it with your browser (Ctrl/Cmd + P).'
+  'This guide explains the two reviews, how they connect, how the Programme AI Integration Statement is drafted and agreed, and where your work is saved. You can print it with your browser (Ctrl/Cmd + P).'
 
 export const HELP_SECTIONS: HelpSection[] = [
   {
     id: 'purpose',
-    heading: 'What this tool is for',
+    heading: 'What these tools are for',
     blocks: [
       {
         kind: 'p',
-        text: 'The tool supports a programme team to review its curriculum and assessment in the context of increasingly capable Generative AI. It asks whether the programme’s approaches remain intentional, coherent, authentic and resilient, and where they need to change.',
-      },
-      {
-        kind: 'note',
-        title: 'What it is not',
-        text: 'The review is not an exercise in making assessment “AI-proof”, and it is not a search for places to prohibit AI. A high AI vulnerability rating is a prompt for discussion, not a verdict on an assessment.',
-      },
-      {
-        kind: 'p',
-        text: 'Worked through as a team, the review should surface:',
+        text: 'The SETU AI Integration Review supports academic teams to reflect on what Generative AI means for curriculum, teaching, learning, assessment and graduate capabilities. It is built around two questions:',
       },
       {
         kind: 'ul',
         items: [
-          'areas of existing strength and resilience;',
-          'potential AI-related vulnerabilities;',
-          'opportunities for meaningful AI integration;',
-          'areas where human capability and independent performance need to be protected and assured;',
-          'gaps or duplication in the development of student AI capability;',
-          'inconsistencies in expectations across modules;',
-          'priorities for curriculum and assessment redesign.',
+          'Learning assurance: can we have confidence that our students are developing and demonstrating the knowledge, skills, judgement and capabilities expected of our graduates in an AI-enabled world?',
+          'Responsible AI engagement: are we preparing our students to engage with AI critically, ethically and responsibly, with appropriate human judgement, agency and oversight?',
         ],
-      },
-    ],
-  },
-  {
-    id: 'before-you-start',
-    heading: 'Before you start',
-    blocks: [
-      {
-        kind: 'p',
-        text: 'The review is designed for a programme team rather than an individual. One person can enter the answers, but the judgements — particularly on vulnerability, learning assurance and protected capabilities — are more reliable when they are discussed.',
-      },
-      { kind: 'p', text: 'Have to hand:' },
-      {
-        kind: 'ul',
-        items: [
-          'the programme learning outcomes;',
-          'module descriptors, including module learning outcomes and credit values;',
-          'assessment briefs, weightings and submission points across the year;',
-          'any existing programme or institutional guidance on student AI use.',
-        ],
-      },
-      {
-        kind: 'p',
-        text: 'A workable sequence is to complete Part A sections 1–3 together in a first session, allocate the Part B module reviews to module leaders, then reconvene for Part A sections 4–7 and all of Part C. Part D is drafted by the tool and amended by the team.',
       },
       {
         kind: 'note',
-        title: 'Try it first',
-        text: 'Use “Load sample” on the landing page to open a worked example. It fills every part of the review so you can see how the portfolio, dashboard, patterns and statement draft are produced. Loading the sample replaces whatever is in the browser, so export your own review first if you have started one.',
+        title: 'What the tools are not',
+        text: 'They are developmental tools, not compliance audits or AI detection systems, and they do not assume that more AI integration is better. A programme or module may appropriately take a restricted, bounded, integrated or open approach, depending on the intended learning. The aim is intentional, educationally justified decisions, not the maximum amount of information.',
+      },
+      {
+        kind: 'p',
+        text: 'There are two shorter reviews, a Programme AI Integration Review and a Module AI Integration Review, which can be used separately or together. Both contribute to one Programme AI Integration Statement.',
       },
     ],
   },
   {
-    id: 'part-a',
-    heading: 'Part A – Programme Review (sections 1–7)',
+    id: 'choosing',
+    heading: 'Which review to start',
     blocks: [
       {
         kind: 'steps',
         items: [
           {
-            title: '1. Programme Context',
-            text: 'Basic programme details and a reflection on how AI is affecting the discipline, profession or employment context. The number of stages you set here determines the columns in the progression map and the stages available to modules.',
+            title: 'Programme AI Integration Review',
+            text: 'For a programme team. Explores graduate capabilities, how AI capability develops across the stages, curriculum and assessment, and how coordinated the programme’s approach is. An initial review takes about 15–20 minutes.',
           },
           {
-            title: '2. Graduate Capabilities',
-            text: 'Three lists: enduring human capabilities, protected human capabilities (what graduates must be able to do themselves), and human-AI capabilities. Preset options are offered and you can add your own. The protected list matters later: Part C checks whether each protected capability is evidenced by at least one assessment.',
-          },
-          {
-            title: '3. AI Capability Progression',
-            text: 'A map of where each AI capability is Introduced, Practised, Extended or Demonstrated across the stages (I, P, E, D). Click a letter to toggle it. The map feeds three of the pattern checks, so an incomplete map means those checks report “not enough information yet”.',
-          },
-          {
-            title: '4. Programme Assessment Portfolio',
-            text: 'This table is built automatically from the assessments you enter in Part B — there is nothing to type. Click any row to jump to that assessment.',
-          },
-          {
-            title: '5. AI Vulnerability',
-            text: 'Reference descriptions of the four vulnerability levels. The rating itself is given per assessment in Part B.',
-          },
-          {
-            title: '6. Learning Assurance',
-            text: 'Reference descriptions of the three assurance levels, plus the Vulnerability × Assurance grid, which counts your assessments into each cell and highlights the ones prioritised for review.',
-          },
-          {
-            title: '7. Programme Coherence',
-            text: 'Ten questions about the experience a student actually has moving through the programme, and an overall coherence rating. Your rating here overrides the tool’s suggestion for the portfolio-coherence area of the dashboard.',
+            title: 'Module AI Integration Review',
+            text: 'For a module leader or module team. Reflects on learning outcomes, teaching and learning, and each assessment. An initial review takes about 10–15 minutes.',
           },
         ],
+      },
+      {
+        kind: 'p',
+        text: 'Either can be started first, and neither needs the other. A module review does not need a programme review to exist; a programme review, and a provisional statement, can be completed without any module reviews. When both exist, each can inform the other (see “Connecting programme and module reviews”).',
+      },
+      {
+        kind: 'p',
+        text: 'The suggested times are a guide, not a limit. Short answers are fine; the reviews are meant to support discussion, not to capture everything.',
       },
     ],
   },
   {
-    id: 'part-b',
-    heading: 'Part B – Module & Assessment Review (sections 8–16)',
+    id: 'programme',
+    heading: 'The Programme AI Integration Review',
     blocks: [
       {
         kind: 'p',
-        text: 'Sections 8–16 are completed once for each module, and the assessment sections once for each assessment within it. There is no limit on the number of modules — the “8–16” beside “Modules” in the sidebar is the section-number range, not a count.',
-      },
-      {
-        kind: 'p',
-        text: 'For each module you record its context, review each module learning outcome, and consider how students are prepared for what assessment expects of them. For each assessment you record:',
-      },
-      {
-        kind: 'ul',
-        items: [
-          'what the assessment is intended to evidence;',
-          'what current Generative AI could reasonably do within it;',
-          'its AI vulnerability, with a reason;',
-          'the AI position that is educationally appropriate, with a rationale;',
-          'the level of learning assurance and the forms of evidence that support it;',
-          'protected human capabilities, human agency and process visibility;',
-          'authenticity, equity and practicality.',
-        ],
-      },
-      {
-        kind: 'note',
-        title: 'Start where it matters',
-        text: 'You do not have to review every module before the synthesis becomes useful. Review the most significant modules first — the ones carrying the largest assessment weightings or the capabilities you most need to assure — and return to the others later. Each module shows a completeness percentage in the list.',
-      },
-      {
-        kind: 'p',
-        text: 'Use “Duplicate” on a module when several modules share an assessment pattern, then edit the copy.',
-      },
-    ],
-  },
-  {
-    id: 'part-c',
-    heading: 'Part C – Programme Synthesis (sections 17–20)',
-    blocks: [
-      {
-        kind: 'p',
-        text: 'Part C is mostly derived from Parts A and B. Its purpose is not to catalogue individual problematic assessments but to see programme-level patterns.',
+        text: 'Start with the programme context. Only the title is needed to begin, and the number of stages sets the columns of the progression map. Then work through five sections; previous and next links are at the foot of each page and a tick appears in the menu when a section’s main questions are answered.',
       },
       {
         kind: 'steps',
         items: [
           {
-            title: '17. Bringing the Evidence Together',
-            text: 'A rating for each of seven areas. Each one arrives with a suggested rating and the reason for it; select a different rating to override it, or use “Use suggestion” to go back.',
+            title: '1. Graduate capabilities',
+            text: 'What graduates must be able to demonstrate independently of AI, what they should be able to do effectively, critically and responsibly with AI, and whether the programme learning outcomes reflect this. Capability suggestions are available if you want them.',
           },
           {
-            title: '18. Pattern Identification',
-            text: 'Ten programme-level patterns, each reported as triggered, possible, clear, or not enough information yet, with the evidence behind the result.',
+            title: '2. AI capability progression',
+            text: 'Mark where each of five broad capabilities is Introduced (I), Practised (P), Extended (E) or Demonstrated (D) at each stage, then reflect on whether the map suggests a coherent progression. The tool does not score the map.',
           },
           {
-            title: '19. Team Discussion',
-            text: 'Eight discussion questions for the team to answer in its own words. Nothing is derived from these; they are the record of the conversation.',
+            title: '3. Curriculum and assessment',
+            text: 'Whether students have sufficient opportunities to demonstrate the intended learning, and whether assessment balances independent performance with responsible AI-enabled practice. If module reviews are linked, an optional overview of their assessments is available.',
           },
           {
-            title: '20. Action Plan',
-            text: 'Actions in seven categories — Maintain, Enhance, Redesign, Integrate, Assure, Align, Monitor — each with a priority, an owner, a timescale and a review point. Categorising is deliberate: it stops the review turning into an attempt to redesign everything at once.',
+            title: '4. Programme coherence',
+            text: 'Optional discussion prompts (open any to note your discussion), then how you would describe your current programme approach and what would strengthen it.',
+          },
+          {
+            title: '5. Priorities and next steps',
+            text: 'Strengths, opportunities, up to three priorities, and any questions you would like module leaders to consider. These priorities and questions can be exported for module teams.',
           },
         ],
       },
       {
         kind: 'p',
-        text: 'The Review Summary page then generates a concise summary of the whole review, suitable for programme review and Academic Unit Review processes. Anything you type into the “Overall position” box on the dashboard is used in place of the generated opening paragraph.',
+        text: 'The programme review summary gathers your answers in one place, with print / save as PDF, copy as text and export. It reports only what you recorded and says “Not yet answered” where a question is blank.',
       },
     ],
   },
   {
-    id: 'part-d',
-    heading: 'Part D – AI Integration Statement (section 21)',
+    id: 'module',
+    heading: 'The Module AI Integration Review',
     blocks: [
       {
         kind: 'p',
-        text: 'The statement is the outward-facing product of the review: what the programme tells students, external examiners and professional bodies about the place of AI in it.',
+        text: 'Start with the module context. The module title or code is enough to begin, and you do not need a programme review. A module shared by several programmes can list them all.',
       },
       {
-        kind: 'p',
-        text: 'Every section of the statement arrives as a draft written from your review answers. The draft is a starting point, not an output to be accepted as it stands — it is assembled mechanically from what you entered and needs the team’s judgement and voice.',
-      },
-      {
-        kind: 'ul',
+        kind: 'steps',
         items: [
-          'Edit any section and your text is used instead of the draft.',
-          'Clear a section back to empty and the generated draft returns, so regenerating never destroys your wording.',
-          'Where the review has nothing to say, the draft leaves a clearly marked placeholder for you to complete.',
+          {
+            title: '1. Learning outcomes',
+            text: 'Whether the module learning outcomes remain appropriate given developments in AI. You do not need to list or rate each outcome; an optional detailed review is available if it helps.',
+          },
+          {
+            title: '2. Teaching and learning',
+            text: 'Whether teaching and learning give students appropriate opportunities, and whether students are supported to engage with AI critically and responsibly where relevant. Guidance on what this might include is available on request.',
+          },
+          {
+            title: '3. Assessment',
+            text: 'Add each assessment and answer three questions: what role AI should play (restricted, limited/bounded, integrated, open or not materially relevant), how confident you are that it provides appropriate evidence of learning, and whether anything needs to change.',
+          },
+          {
+            title: '4. Reflection and next steps',
+            text: 'What is working well, what you might enhance, what needs programme-level discussion, up to three next steps, and whether your decisions about AI align with the intended learning and the wider programme approach.',
+          },
         ],
-      },
-      {
-        kind: 'p',
-        text: 'The Full Statement page shows the assembled statement plus an evidence table mapping each claim back to the part of the review it came from.',
-      },
-    ],
-  },
-  {
-    id: 'priority-rule',
-    heading: 'How assessments are prioritised for review',
-    blocks: [
-      {
-        kind: 'p',
-        text: 'Vulnerability and quality are not the same thing. An assessment can be highly susceptible to AI assistance and still provide strong evidence of learning; an assessment with low AI vulnerability can still be poor evidence of meaningful learning. The two ratings are therefore always read together.',
-      },
-      { kind: 'p', text: 'The tool applies one rule consistently throughout:' },
-      {
-        kind: 'ul',
-        items: [
-          'AI vulnerability High or Critical with learning assurance Low → prioritised for review (shown in red).',
-          'AI vulnerability High or Critical with learning assurance Moderate → worth watching (shown in amber).',
-          'Everything else is not flagged.',
-        ],
-      },
-      {
-        kind: 'p',
-        text: 'The same rule drives the red and amber rows in the assessment portfolio, the highlighted cells in the Vulnerability × Assurance grid, the “Prioritised for review” count on the dashboard, and the first pattern check. An assessment is only flagged once both ratings have been given.',
-      },
-    ],
-  },
-  {
-    id: 'suggestions',
-    heading: 'How the suggested ratings and patterns are worked out',
-    blocks: [
-      {
-        kind: 'p',
-        text: 'Nothing in the tool uses AI to reach these conclusions. Every suggestion is a fixed rule applied to what you entered, and every one can be overridden. Where you have given a team rating yourself — progression in section 3, coherence in section 7 — that rating is used in preference to any calculation.',
-      },
-      { kind: 'p', text: 'The dashboard areas are suggested as follows:' },
-      {
-        kind: 'ul',
-        items: [
-          'AI resilience — from the number of assessments prioritised for review: two or more suggests “Priority action required”, one suggests “Review recommended”.',
-          'Learning assurance — from the proportion of rated assessments given Low assurance.',
-          'AI capability progression — your section 3 rating, otherwise the progression pattern check.',
-          'Protected human capability — whether each capability named in section 2B is evidenced by at least one assessment.',
-          'Assessment portfolio coherence — your section 7 rating, otherwise the assessment-type overuse and volume checks.',
-          'Consistency of AI expectations — whether any single stage mixes AI Restricted with AI Integrated or AI Open assessments.',
-          'Future/disciplinary relevance — the average of the authenticity ratings given to assessments.',
-        ],
-      },
-      {
-        kind: 'p',
-        text: 'The pattern checks apply similar thresholds — for example, an assessment type is reported as overused when it accounts for at least three assessments and at least 40% of those with a type recorded; assessment volume is queried above an average of three assessments per module. Each pattern shows its evidence, so you can see exactly which assessments or stages produced the result.',
       },
       {
         kind: 'note',
-        title: 'Blank is not clear',
-        text: 'A check that reports “not enough information yet” means the underlying answers are missing, not that there is no problem. Completing the progression map and the vulnerability, assurance and position ratings is what turns those into real results.',
+        title: 'Explore Assessment Design in More Detail',
+        text: 'Each assessment has an optional detailed section covering vulnerability, learning assurance evidence, human agency, process visibility, authenticity, equity, practicality and sustainability. It is never needed to complete the review; use it when a fuller discussion would help.',
+      },
+      {
+        kind: 'p',
+        text: 'The module summary reports each assessment on its own, with no totals or scores, and ends with a short contribution to the programme’s statement: how the module contributes to the programme’s overall approach to AI. From the summary you can print, copy, export the review, or export a module contribution for the programme team.',
+      },
+    ],
+  },
+  {
+    id: 'connecting',
+    heading: 'Connecting programme and module reviews',
+    blocks: [
+      {
+        kind: 'steps',
+        items: [
+          {
+            title: 'Programme to module',
+            text: 'In section 5 of the programme review, choose “Export priorities and questions for module teams” and send the file to module leaders. They open Programme priorities in their module review and import it. The prompts are optional, and the module team can note a response against each.',
+          },
+          {
+            title: 'Module to programme',
+            text: 'On the module summary, choose “Export module contribution” and send the file to the programme team. They open Module contributions in their programme review and import it, then can see each module’s assessment positions, confidence, proposed actions, matters for discussion and contribution, with the full findings on request.',
+          },
+          {
+            title: 'In the same browser',
+            text: 'If both reviews are saved in the same browser, each page offers to add them directly, without exporting a file. A whole exported review file can also be imported in place of the shorter contribution or prompts file.',
+          },
+        ],
+      },
+      {
+        kind: 'ul',
+        items: [
+          'Importing never overwrites anything else in either review.',
+          'Importing the same file twice changes nothing. If a newer version arrives, you are asked before it replaces the one you hold; your own notes on it are kept.',
+          'A module can contribute to several programmes. Each programme keeps its own copy and notes, and nothing is ever written back to the module review.',
+          'Module contributions are the module team’s observations and proposals. They are not treated as programme decisions, and having none is not a weakness.',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'statement',
+    heading: 'The Programme AI Integration Statement',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'The statement is drafted from the programme review and can be started at any time; module reviews are not required. It has five sections: our approach to AI, graduate capabilities, curriculum and assessment, responsible AI, and review and development. Aim for around 400–600 words where the evidence supports it.',
+      },
+      {
+        kind: 'p',
+        text: 'Every drafted sentence comes from something your team recorded, and is labelled with what it is based on:',
+      },
+      {
+        kind: 'ul',
+        items: [
+          'Existing practice: current practice, as recorded in the review.',
+          'Proposed development: a priority or opportunity you identified. It is never described as already done.',
+          'Programme-team decision: a judgement or position the team recorded.',
+          'Module-level observation: reported by a module team. You can turn module examples off.',
+          'To confirm: information that is missing or carried over. It appears as a bracketed question, for example [When will the programme team next review this statement?].',
+        ],
+      },
+      {
+        kind: 'p',
+        text: 'The labels appear on screen only; the printed statement is plain text. Choose “Edit this section” to put any section into your own words. Your text is kept if review answers change later; the tool tells you when an updated draft is available and lets you keep your text or use the new draft.',
+      },
+      {
+        kind: 'steps',
+        items: [
+          {
+            title: 'Draft',
+            text: 'The starting status. Answer or edit out any items to confirm.',
+          },
+          {
+            title: 'Under programme-team review',
+            text: 'Shared with the team for discussion.',
+          },
+          {
+            title: 'Agreed',
+            text: 'Only when you choose “Record approval” and enter the approving team or role and the date. Nothing else marks it agreed. If the text changes afterwards, the tool says so until approval is recorded again.',
+          },
+        ],
+      },
+      {
+        kind: 'p',
+        text: 'Copy the text, print or save it as a PDF (optionally with an appendix of supporting evidence from the programme review and module contributions), or export it as a structured file. The statement can be used as supporting documentation for Academic Unit Review, programme review and external review.',
+      },
+    ],
+  },
+  {
+    id: 'previous-version',
+    heading: 'Reviews from the previous version',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'The previous version of the tool held one combined review (Parts A–D). It remains available, unchanged, as the Classic tool, linked from the home page, so earlier work can still be opened and compared.',
+      },
+      {
+        kind: 'p',
+        text: 'If a review from the previous version is saved in your browser, the home page offers to bring it in. Download the backup it offers first. You can also import a file exported from the previous version. Either way, the original is not changed.',
+      },
+      {
+        kind: 'ul',
+        items: [
+          'One earlier review becomes one programme review and one module review for each module, already linked.',
+          'Details, capability selections, learning outcomes, assessments, comments, actions and statement text are carried over.',
+          'Earlier ratings are copied only where they mean the same thing. Otherwise the new question is left for your team to answer, and the earlier answer is shown read-only under “From your review in the previous version”.',
+          'The earlier assessment ratings appear in each assessment’s “Explore Assessment Design in More Detail” section.',
+          'The progression map used seven rows; it now has five. Cells combined into a new row are outlined in amber until you confirm them.',
+          'A statement marked agreed in the previous version starts here as a draft; its text is shown on the statement page for reuse.',
+          'Notes on exactly what was carried over are on each review’s context page.',
+        ],
       },
     ],
   },
   {
     id: 'saving',
-    heading: 'Saving, sharing and browsers',
+    heading: 'Saving, sharing and backups',
     blocks: [
       {
         kind: 'p',
-        text: 'The tool runs entirely in your browser. Nothing you enter is sent to a server, and no account is needed.',
+        text: 'Everything is saved automatically in this browser, on this computer. Nothing is sent to a server. A new review is saved as soon as you enter something in it.',
       },
       {
         kind: 'ul',
         items: [
-          'Your review is saved automatically as you type. The header shows when it last changed.',
-          'It is saved in this browser, on this device only. Opening the tool in a different browser, on a different computer, or in a private window shows an empty review.',
-          'Export writes the whole review to a JSON file. That file is your backup and the way to pass the review to a colleague.',
-          'Import loads an exported file back in, replacing whatever is currently in the browser. You will be asked to confirm.',
-          'New clears the review and starts again — export first if you want to keep it.',
+          'You can keep several programme and module reviews; starting or importing one never overwrites another. They are listed under Saved reviews, where you can open, export or delete them.',
+          'Use “Export review” to save a file for backup or to send to a colleague, and “Import existing review” on the home page to open one.',
+          '“Export data” on the home page saves every review in this browser as one file, for example to move to another computer.',
+          'Reviews do not move between browsers or computers by themselves. Export and import to do that.',
+          'Clearing your browser data deletes saved reviews. In some private windows nothing can be saved at all; the tool shows a warning if so. Export regularly.',
         ],
-      },
-      {
-        kind: 'note',
-        title: 'Working as a team',
-        text: 'Because the review lives in one browser, two people cannot edit it at the same time. Pass it around instead: whoever holds it exports when they are finished and sends the file on. Exporting at the end of each session also gives you a version you can go back to.',
-      },
-      {
-        kind: 'p',
-        text: 'Clearing your browser’s site data, or using a device that clears it for you, removes an unexported review. Export regularly.',
       },
     ],
   },
   {
-    id: 'outputs',
-    heading: 'Printing and the final outputs',
+    id: 'accessibility',
+    heading: 'Using the tool with a keyboard or screen reader',
     blocks: [
-      {
-        kind: 'p',
-        text: 'The review produces three things you can take away:',
-      },
       {
         kind: 'ul',
         items: [
-          'Print / Save as PDF — the whole review, every part, laid out for A4. Use your browser’s print dialogue and choose “Save as PDF”.',
-          'The Review Summary — a concise account of the review’s findings and priorities for programme review processes.',
-          'The AI Integration Statement — the approved statement, plus the evidence table for external review.',
+          'Press Tab from the top of any page to reach “Skip to content”.',
+          'Every control can be reached and used with the keyboard. Choose an answer with the arrow keys or space; choose “Clear answer” to remove it.',
+          'Optional guidance and detail are in sections that open and close with Enter or space.',
+          'The menu shows which sections are answered, with a tick and the words “answered” for screen readers.',
+          'Summaries and the statement are laid out for printing; use your browser’s print command to save them as a PDF.',
         ],
-      },
-      {
-        kind: 'p',
-        text: 'The JSON export is not a report: it is the review data, for backup and for handing on. Use the print view when you need something to read or circulate.',
       },
     ],
   },
   {
     id: 'faq',
-    heading: 'Questions and troubleshooting',
+    heading: 'Questions',
     blocks: [
       {
         kind: 'faq',
         items: [
           {
-            q: 'My review has disappeared.',
-            a: 'Check that you are using the same browser, device and profile as before, and that you are not in a private window. If your browser’s site data was cleared, an unexported review cannot be recovered — import your most recent export.',
+            q: 'Do we have to finish the programme review before module reviews?',
+            a: 'No. Either can be started first and each can be completed on its own.',
           },
           {
-            q: 'Does anything I type leave my computer?',
-            a: 'No. There is no server and no account. The only way data leaves the browser is when you export a file and send it somewhere yourself.',
+            q: 'Do we have to fill in the detailed assessment section?',
+            a: 'No. The three questions for each assessment are all that is needed.',
           },
           {
-            q: 'Can two of us work on the review at the same time?',
-            a: 'No. Export and pass the file on instead — see “Saving, sharing and browsers” above.',
+            q: 'Why are some answers blank after bringing in our earlier review?',
+            a: 'Where an earlier rating did not mean the same as a new question, it was not copied, so that nothing is reinterpreted. The earlier answer is shown read-only beside the question.',
           },
           {
-            q: 'What do the numbers beside the sidebar items mean?',
-            a: 'They are the section numbers from the review specification. “8–16” beside Modules means that part covers sections 8 to 16 for each module; it is not a limit on how many modules you can add.',
+            q: 'Does importing a module contribution change our programme review?',
+            a: 'It only adds the contribution to Module contributions. Your answers, priorities and statement are not changed, and module findings are never treated as programme decisions.',
           },
           {
-            q: 'Do I have to answer everything?',
-            a: 'No. Every field is optional and the review saves as you go. The derived views simply say where they have too little information, and the module list shows how complete each module is.',
+            q: 'Can we agree a statement that still has items to confirm?',
+            a: 'You will be warned first. It is better to answer the question in the review or edit the section, so that the agreed statement contains no placeholders.',
           },
           {
-            q: 'Can I change a suggested rating?',
-            a: 'Yes. Every suggestion on the dashboard can be overridden by selecting a different rating, and every generated statement section can be rewritten. Clearing your override or your text restores the suggestion.',
-          },
-          {
-            q: 'An import was rejected.',
-            a: 'The tool only accepts JSON files it exported itself. A file saved by a newer version of the tool, or one that has been edited by hand into an invalid shape, is refused rather than loaded partially.',
-          },
-          {
-            q: 'How do I start a second review for another programme?',
-            a: 'Export the current review, then choose New. Keep the exported files — you can import any of them again later.',
+            q: 'Can colleagues work on the same review at the same time?',
+            a: 'Not live. Each person works in their own browser; share by exporting and importing files.',
           },
         ],
       },

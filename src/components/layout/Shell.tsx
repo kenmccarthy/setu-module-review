@@ -1,94 +1,86 @@
-import { useEffect, useRef, useState } from 'react'
-import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { useReviewStore } from '../../store/reviewStore'
-import { downloadReview, parseReviewJson, readFileText } from '../../store/io'
-import { NAV } from './nav'
+import { useState } from 'react'
+import { Link, NavLink, Outlet, useLocation, useMatch } from 'react-router-dom'
+import { useWorkspace } from '../../store/workspace'
+import { downloadJson, reviewFileName } from '../../store/download'
+import { kindLabel, reviewTitle } from './labels'
+import { navFor } from './nav'
+import { programmeProgress } from '../../logic/v2/programmeSummary'
+import { moduleProgress } from '../../logic/v2/moduleSummary'
 import { Button } from '../fields'
 
-/** The badge beside a nav item is a section number, not a count. */
-const sectionLabel = (number: string) => `Section${number.includes('–') ? 's' : ''} ${number}`
-
 export function Shell() {
-  const review = useReviewStore((s) => s.review)
-  const started = useReviewStore((s) => s.started)
-  const load = useReviewStore((s) => s.load)
-  const reset = useReviewStore((s) => s.reset)
-  const navigate = useNavigate()
+  const match = useMatch('/:kind/:reviewId/*')
+  const current = useWorkspace((s) => s.current)
+  const persistent = useWorkspace((s) => s.persistent)
+  const entries = useWorkspace((s) => s.entries)
   const location = useLocation()
-  const fileRef = useRef<HTMLInputElement>(null)
   const [menuOpen, setMenuOpen] = useState(false)
-  const [notice, setNotice] = useState<string | null>(null)
 
-  useEffect(() => {
-    if (!notice) return
-    const t = setTimeout(() => setNotice(null), 5000)
-    return () => clearTimeout(t)
-  }, [notice])
-
-  const onImport = async (file: File | undefined) => {
-    if (!file) return
-    const result = parseReviewJson(await readFileText(file))
-    if (!result.ok) {
-      setNotice(result.error)
-      return
-    }
-    if (
-      started &&
-      !confirm('Importing will replace the review currently in this browser. Continue?')
-    )
-      return
-    load(result.review)
-    setNotice('Review imported.')
-    navigate('/programme/context')
-  }
-
-  const onNew = () => {
-    if (
-      started &&
-      !confirm(
-        'Start a new review? The current review will be cleared from this browser. Export it first if you want to keep it.',
-      )
-    )
-      return
-    reset()
-    navigate('/')
-  }
-
-  const modules = review.modules
-  const isPrint = location.pathname === '/print'
+  const inReview =
+    match && current && current.id === match.params.reviewId && current.kind === match.params.kind
+      ? current
+      : null
+  const nav = navFor(
+    inReview?.kind,
+    inReview?.id,
+    !inReview
+      ? {}
+      : inReview.kind === 'programme'
+        ? programmeProgress(inReview)
+        : moduleProgress(inReview),
+  )
+  const isPrint = location.pathname.endsWith('/print')
 
   return (
     <div className="min-h-screen lg:flex">
+      <a
+        href="#main"
+        onClick={(e) => {
+          // Hash routing: move focus to the content rather than changing the route.
+          e.preventDefault()
+          document.getElementById('main')?.focus()
+        }}
+        className="no-print sr-only z-50 rounded-md bg-white px-3 py-2 text-sm font-medium text-brand-700 shadow focus:not-sr-only focus:fixed focus:left-2 focus:top-2"
+      >
+        Skip to content
+      </a>
       <aside
         className={`no-print fixed inset-y-0 left-0 z-30 w-72 overflow-y-auto border-r border-slate-200 bg-white transition-transform lg:static lg:translate-x-0 ${
           menuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="border-b border-slate-200 px-4 py-4">
-          <NavLink to="/" className="block">
+          <Link to="/" className="block">
             <p className="text-xs font-semibold uppercase tracking-wider text-brand-600">SETU</p>
             <p className="text-base font-bold leading-tight text-slate-900">
-              AI Programme & Module Review
+              AI Integration Review
             </p>
-          </NavLink>
-          {review.programme.title && (
-            <p className="mt-2 truncate text-sm text-slate-600" title={review.programme.title}>
-              {review.programme.title}
-            </p>
+          </Link>
+          {inReview && (
+            <div className="mt-2">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                {kindLabel(inReview.kind)}
+              </p>
+              <p className="truncate text-sm text-slate-700" title={reviewTitle(inReview)}>
+                {reviewTitle(inReview)}
+              </p>
+            </div>
           )}
         </div>
-        <nav className="space-y-5 px-3 py-4" onClick={() => setMenuOpen(false)}>
-          {NAV.map((group) => (
-            <div key={group.label}>
-              <p className="px-2 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                {group.label}
-              </p>
+        <nav aria-label="Main" className="space-y-5 px-3 py-4" onClick={() => setMenuOpen(false)}>
+          {nav.map((group, gi) => (
+            <div key={group.label || gi}>
+              {group.label && (
+                <p className="px-2 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                  {group.label}
+                </p>
+              )}
               <ul className="space-y-0.5">
                 {group.items.map((item) => (
                   <li key={item.to}>
                     <NavLink
                       to={item.to}
-                      end={item.to === '/statement' || item.to === '/modules'}
+                      end
                       className={({ isActive }) =>
                         `flex items-center gap-2 rounded-md px-2 py-1.5 text-sm ${
                           isActive
@@ -98,37 +90,21 @@ export function Shell() {
                       }
                     >
                       {item.number && (
-                        <span
-                          className="w-8 shrink-0 text-xs text-slate-400"
-                          title={sectionLabel(item.number)}
-                          aria-label={sectionLabel(item.number)}
-                        >
+                        <span className="w-5 shrink-0 text-xs text-slate-400" aria-hidden="true">
                           {item.number}
                         </span>
                       )}
-                      <span>{item.label}</span>
+                      <span>
+                        {item.number && <span className="sr-only">Section {item.number}: </span>}
+                        {item.label}
+                      </span>
+                      {item.done && (
+                        <span className="ml-auto text-xs text-brand-600">
+                          <span aria-hidden="true">✓</span>
+                          <span className="sr-only"> (answered)</span>
+                        </span>
+                      )}
                     </NavLink>
-                    {item.to === '/modules' && modules.length > 0 && (
-                      <ul className="ml-10 mt-0.5 space-y-0.5 border-l border-slate-200 pl-2">
-                        {modules.map((m) => (
-                          <li key={m.id}>
-                            <NavLink
-                              to={`/modules/${m.id}`}
-                              className={({ isActive }) =>
-                                `block truncate rounded px-2 py-1 text-xs ${
-                                  isActive
-                                    ? 'text-brand-700 font-medium'
-                                    : 'text-slate-600 hover:bg-slate-100'
-                                }`
-                              }
-                            >
-                              {m.code ? `${m.code} ` : ''}
-                              {m.title || 'Untitled module'}
-                            </NavLink>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
                   </li>
                 ))}
               </ul>
@@ -152,45 +128,38 @@ export function Shell() {
           >
             ☰
           </button>
-          <p className="min-w-0 flex-1 truncate text-xs text-slate-500">
-            {started ? (
-              <>
-                Autosaved in this browser · last change{' '}
-                {new Date(review.updatedAt).toLocaleString()}
-              </>
-            ) : (
-              'No review started'
-            )}
+          <p className="min-w-0 flex-1 truncate text-xs text-slate-500" aria-live="polite">
+            {!inReview
+              ? ''
+              : !entries.some((e) => e.id === inReview.id)
+                ? 'Not saved yet: the review is saved as soon as you enter something'
+                : `${persistent ? 'Saved in this browser' : 'Not saved: this browser is blocking storage'} · last change ${new Date(inReview.updatedAt).toLocaleString()}`}
           </p>
-          {notice && (
-            <p role="status" className="hidden text-xs text-brand-700 sm:block">
-              {notice}
-            </p>
+          {inReview && (
+            <Button onClick={() => downloadJson(reviewFileName(inReview), inReview)}>
+              Export review
+            </Button>
           )}
-          <input
-            ref={fileRef}
-            type="file"
-            accept="application/json,.json"
-            className="hidden"
-            onChange={(e) => {
-              void onImport(e.target.files?.[0])
-              e.target.value = ''
-            }}
-          />
-          <Button onClick={() => fileRef.current?.click()}>Import</Button>
-          <Button onClick={() => downloadReview(review)} disabled={!started}>
-            Export
-          </Button>
-          <Button onClick={onNew} variant="ghost">
-            New
-          </Button>
+          <Link
+            to="/"
+            className="rounded-md px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-100"
+          >
+            Home
+          </Link>
         </header>
-        {notice && (
-          <p role="status" className="bg-brand-50 px-4 py-2 text-xs text-brand-800 sm:hidden">
-            {notice}
+        {!persistent && (
+          <p role="alert" className="no-print bg-amber-50 px-4 py-2 text-sm text-amber-900">
+            This browser is blocking local storage, so your work will be lost when you close this
+            tab. Export your review before leaving.
           </p>
         )}
-        <main className={isPrint ? 'flex-1' : 'flex-1 px-4 py-6 sm:px-6 lg:px-8'}>
+        <main
+          id="main"
+          tabIndex={-1}
+          className={
+            isPrint ? 'flex-1 outline-none' : 'flex-1 px-4 py-6 outline-none sm:px-6 lg:px-8'
+          }
+        >
           <div className={isPrint ? '' : 'mx-auto max-w-5xl space-y-6'}>
             <Outlet />
           </div>

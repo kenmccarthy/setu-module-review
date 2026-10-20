@@ -25,7 +25,7 @@ export function HelpPage() {
         className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm"
       >
         <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Contents</h2>
-        <ol className="mt-2 grid list-decimal gap-1 pl-5 text-sm sm:grid-flow-col sm:grid-cols-2 sm:grid-rows-6">
+        <ol className="mt-2 grid list-decimal gap-1 pl-5 text-sm sm:grid-flow-col sm:grid-cols-2 sm:grid-rows-5">
           {HELP_SECTIONS.map((s) => (
             <li key={s.id}>
               <Link className="text-brand-700 hover:underline" to={`/help#${s.id}`}>
