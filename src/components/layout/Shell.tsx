@@ -4,12 +4,14 @@ import { useWorkspace } from '../../store/workspace'
 import { downloadJson, reviewFileName } from '../../store/download'
 import { kindLabel, reviewTitle } from './labels'
 import { navFor } from './nav'
+import { programmeProgress } from '../../logic/v2/programmeSummary'
 import { Button } from '../fields'
 
 export function Shell() {
   const match = useMatch('/:kind/:reviewId/*')
   const current = useWorkspace((s) => s.current)
   const persistent = useWorkspace((s) => s.persistent)
+  const entries = useWorkspace((s) => s.entries)
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -17,7 +19,11 @@ export function Shell() {
     match && current && current.id === match.params.reviewId && current.kind === match.params.kind
       ? current
       : null
-  const nav = navFor(inReview?.kind, inReview?.id)
+  const nav = navFor(
+    inReview?.kind,
+    inReview?.id,
+    inReview?.kind === 'programme' ? programmeProgress(inReview) : {},
+  )
   const isPrint = location.pathname.endsWith('/print')
 
   return (
@@ -87,6 +93,12 @@ export function Shell() {
                         {item.number && <span className="sr-only">Section {item.number}: </span>}
                         {item.label}
                       </span>
+                      {item.done && (
+                        <span className="ml-auto text-xs text-brand-600">
+                          <span aria-hidden="true">✓</span>
+                          <span className="sr-only"> (answered)</span>
+                        </span>
+                      )}
                     </NavLink>
                   </li>
                 ))}
@@ -112,9 +124,11 @@ export function Shell() {
             ☰
           </button>
           <p className="min-w-0 flex-1 truncate text-xs text-slate-500" aria-live="polite">
-            {inReview
-              ? `${persistent ? 'Saved in this browser' : 'Not saved: this browser is blocking storage'} · last change ${new Date(inReview.updatedAt).toLocaleString()}`
-              : ''}
+            {!inReview
+              ? ''
+              : !entries.some((e) => e.id === inReview.id)
+                ? 'Not saved yet: the review is saved as soon as you enter something'
+                : `${persistent ? 'Saved in this browser' : 'Not saved: this browser is blocking storage'} · last change ${new Date(inReview.updatedAt).toLocaleString()}`}
           </p>
           {inReview && (
             <Button onClick={() => downloadJson(reviewFileName(inReview), inReview)}>

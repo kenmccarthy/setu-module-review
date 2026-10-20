@@ -5,6 +5,15 @@ import { MODULE_SECTIONS, PROGRAMME_SECTIONS, reviewPath } from '../../component
 import type { ReviewKind } from '../../model/v2/schema'
 import { useWorkspace } from '../../store/workspace'
 import { SectionPager } from './SectionPager'
+import {
+  ProgrammeCapabilities,
+  ProgrammeCoherence,
+  ProgrammeContext,
+  ProgrammeCurriculum,
+  ProgrammePriorities,
+  ProgrammeProgression,
+} from '../programme/sections'
+import { ProgrammeSummary } from '../programme/ProgrammeSummary'
 
 /** Opens the review named in the URL and renders the requested section. */
 export function ReviewRoute({ kind }: { kind: ReviewKind }) {
@@ -38,7 +47,33 @@ export function ReviewRoute({ kind }: { kind: ReviewKind }) {
     )
   if (!review) return null
   if (review.kind !== kind) return <Navigate to={reviewPath(review.kind, review.id)} replace />
+  if (kind === 'programme' && section in PROGRAMME_PAGES) {
+    const meta = PROGRAMME_SECTIONS.find((s) => s.id === section)!
+    const Page = PROGRAMME_PAGES[section]
+    return (
+      <>
+        <PageTitle
+          part={
+            'number' in meta ? `Programme review · Section ${meta.number} of 5` : 'Programme review'
+          }
+          title={meta.label}
+        />
+        <Page />
+        <SectionPager kind={kind} section={section} />
+      </>
+    )
+  }
   return <PlaceholderSection kind={kind} section={section} />
+}
+
+const PROGRAMME_PAGES: Record<string, () => React.ReactNode> = {
+  context: ProgrammeContext,
+  capabilities: ProgrammeCapabilities,
+  progression: ProgrammeProgression,
+  curriculum: ProgrammeCurriculum,
+  coherence: ProgrammeCoherence,
+  priorities: ProgrammePriorities,
+  summary: ProgrammeSummary,
 }
 
 const EXTRA: Record<string, string> = {

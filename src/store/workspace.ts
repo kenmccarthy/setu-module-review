@@ -28,6 +28,7 @@ export interface WorkspaceState {
   refresh: () => void
   /** Open a saved review; returns it, or undefined if no review has that id. */
   open: (id: string) => AnyReview | undefined
+  /** Open a new, not yet saved, review. It is saved on its first change. */
   createProgramme: (partial?: Partial<ProgrammeReview>) => ProgrammeReview
   createModule: (partial?: Partial<ModuleReview>) => ModuleReview
   /** Change the open review inside an immer draft; it is saved immediately. */
@@ -61,8 +62,18 @@ export const useWorkspace = create<WorkspaceState>()((set, get) => {
       set({ current: review ?? null, failedId: review ? null : id })
       return review
     },
-    createProgramme: (partial) => save(newProgrammeReview(partial)) as ProgrammeReview,
-    createModule: (partial) => save(newModuleReview(partial)) as ModuleReview,
+    // A new review is opened but not saved until something is entered, so starting a review and
+    // leaving straight away does not leave an empty review behind.
+    createProgramme: (partial) => {
+      const r = newProgrammeReview(partial)
+      set({ current: r, failedId: null })
+      return r
+    },
+    createModule: (partial) => {
+      const r = newModuleReview(partial)
+      set({ current: r, failedId: null })
+      return r
+    },
     update: (fn) => {
       const cur = get().current
       if (!cur) return

@@ -169,4 +169,9 @@ One v1 review → one ProgrammeReview + one ModuleReview per v1 module (linked: 
       (`src/components/layout/nav.ts`, `Shell.tsx`), review routes with placeholder sections. The v1
       pages are unrouted (kept as source for porting) so nothing in the app writes the v1 key; a test
       checks the v1 store is not reachable from `main.tsx`.
-- [ ] Stages 3–8.
+- [x] Stage 3 — Programme Review: context + five sections + summary (`src/features/programme`),
+      neutral `Choice`, `Disclosure` and `ListEditor` fields, reusable `ProgressionMap`, pure summary
+      and progress (`src/logic/v2/programmeSummary.ts`), read-only v1 answers beside each section
+      (`src/logic/v2/legacy.ts`), prompts export for module teams, print/copy/JSON. New reviews are
+      saved only once something is entered. v1 programme pages removed.
+- [ ] Stages 4–8.

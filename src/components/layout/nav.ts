@@ -5,6 +5,8 @@ export interface NavItem {
   label: string
   /** Section number shown beside the label (the numbered review sections only). */
   number?: string
+  /** The section's main questions have been answered. */
+  done?: boolean
 }
 export interface NavGroup {
   label: string
@@ -50,7 +52,11 @@ const HOME: NavGroup = {
  * Navigation for the current context. Inside a review only that tool's sections are listed,
  * never the other tool's, so a module review stays short.
  */
-export function navFor(kind?: ReviewKind, id?: string): NavGroup[] {
+export function navFor(
+  kind?: ReviewKind,
+  id?: string,
+  progress: Record<string, boolean> = {},
+): NavGroup[] {
   if (!kind || !id) return [HOME]
   const sections = kind === 'programme' ? PROGRAMME_SECTIONS : MODULE_SECTIONS
   const groups: NavGroup[] = [
@@ -62,6 +68,7 @@ export function navFor(kind?: ReviewKind, id?: string): NavGroup[] {
         to: reviewPath(kind, id, s.id),
         label: s.label,
         ...('number' in s ? { number: s.number } : {}),
+        ...(progress[s.id] ? { done: true } : {}),
       })),
     },
   ]

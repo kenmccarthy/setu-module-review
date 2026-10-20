@@ -5,6 +5,13 @@ import type { ModuleReview, ProgrammeReview } from '../src/model/v2/schema'
 import { MemoryStorage } from './memoryStorage'
 
 const ws = () => useWorkspace.getState()
+
+/** Start a review and make a first change, which is when it is saved. */
+function create(kind: 'programme' | 'module', partial: { code?: string; title?: string } = {}) {
+  const r = kind === 'programme' ? ws().createProgramme(partial) : ws().createModule(partial)
+  ws().update((d) => void (d.title = partial.title ?? d.title))
+  return ws().current!.id === r.id ? ws().current! : r
+}
 let storage: MemoryStorage
 
 beforeEach(() => {
@@ -15,19 +22,28 @@ beforeEach(() => {
 
 describe('workspace', () => {
   it('starts a module review without any programme review, and vice versa', () => {
-    const m = ws().createModule({ code: 'BIS101' })
+    const m = create('module', { code: 'BIS101' })
     expect(ws().entries.map((e) => e.kind)).toEqual(['module'])
-    const p = ws().createProgramme()
+    const p = create('programme')
     expect(ws().entries).toHaveLength(2)
-    expect(loadReview(storage, m.id)).toEqual(m)
-    expect(loadReview(storage, p.id)).toEqual(p)
+    expect(loadReview(storage, m.id)).toMatchObject({ code: 'BIS101' })
+    expect(loadReview(storage, p.id)?.kind).toBe('programme')
+  })
+
+  it('does not save a new review until something is entered', () => {
+    const m = ws().createModule()
+    expect(ws().current?.id).toBe(m.id)
+    expect(ws().entries).toEqual([])
+    expect(loadReview(storage, m.id)).toBeUndefined()
+    ws().update<ModuleReview>((d) => void (d.title = 'Now saved'))
+    expect(ws().entries.map((e) => e.id)).toEqual([m.id])
   })
 
   it('keeps several reviews of each kind without overwriting', () => {
-    const a = ws().createModule({ code: 'A' })
-    const b = ws().createModule({ code: 'B' })
-    ws().createProgramme({ title: 'P1' })
-    ws().createProgramme({ title: 'P2' })
+    const a = create('module', { code: 'A' })
+    const b = create('module', { code: 'B' })
+    create('programme', { title: 'P1' })
+    create('programme', { title: 'P2' })
     expect(ws().entries).toHaveLength(4)
     expect((loadReview(storage, a.id) as ModuleReview).code).toBe('A')
     expect((loadReview(storage, b.id) as ModuleReview).code).toBe('B')
@@ -38,6 +54,7 @@ describe('workspace', () => {
     ws().update<ProgrammeReview>((d) => {
       d.title = 'BSc Example'
     })
+    expect(ws().current?.id).toBe(p.id)
     const saved = loadReview(storage, p.id) as ProgrammeReview
     expect(saved.title).toBe('BSc Example')
     expect(saved.updatedAt >= p.updatedAt).toBe(true)
@@ -45,7 +62,7 @@ describe('workspace', () => {
   })
 
   it('reopens a saved review by id, and reports one that does not exist', () => {
-    const m = ws().createModule({ code: 'X' })
+    const m = create('module', { code: 'X' })
     ws().useStorage(storage)
     expect(ws().current).toBeNull()
     expect(ws().open(m.id)?.id).toBe(m.id)
@@ -54,18 +71,15 @@ describe('workspace', () => {
   })
 
   it('deletes only the chosen review', () => {
-    const a = ws().createModule()
-    const b = ws().createModule()
+    const a = create('module')
+    const b = create('module')
     ws().remove(a.id)
     expect(ws().entries.map((e) => e.id)).toEqual([b.id])
     expect(ws().current?.id).toBe(b.id)
   })
 
   it('never writes the v1 storage key', () => {
-    ws().createProgramme()
-    ws().update<ProgrammeReview>((d) => {
-      d.title = 'x'
-    })
+    create('programme', { title: 'x' })
     ws().remove(ws().entries[0].id)
     expect(storage.getItem(V1_STORAGE_KEY)).toBe('v1 data')
   })
