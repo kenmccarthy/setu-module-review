@@ -23,8 +23,7 @@ publishes both builds:
   2. checks out `CLASSIC_REF` into `classic-src/`, then `npm ci && npm run build` with
      `VITE_BASE=/setu-module-review/classic/` → copies into `dist/classic/`
   3. uploads `dist/` as the single Pages artifact.
-     Also trigger on pushes to `legacy/v1`. No changes to the Pages environment rule (it still deploys
-     from `main`'s workflow; a `legacy/v1` push uses `workflow_dispatch`, or allow it in the env rule).
+     No change to the Pages environment rule is needed: it still deploys only from `main`.
 - v2 at `https://kenmccarthy.github.io/setu-module-review/`, v1 at `.../classic/`. Repo URL and base
   path stay as spec §11 requires. The v2 landing page links to the "Classic (v1) tool".
 - **localStorage**: both builds share the origin `kenmccarthy.github.io`. v1 owns the key
@@ -116,10 +115,11 @@ One v1 review → one ProgrammeReview + one ModuleReview per v1 module (linked: 
 - `parseReviewJson` dispatch: v1 → migrate; v2 → validate; >2 → reject (no downgrade); packets →
   exchange import; invalid → reject without touching state.
 
-## Delivery stages (each a PR to `main`, CI green before merge)
+## Delivery stages (CI green before each merge)
 
-0. **Freeze & dual deploy** — tag `v1.0.0`, branch `legacy/v1`, update `deploy.yml` to publish
-   `/classic/`. Verify v1 still works at both paths. (Only stage merged to `main` early.)
+0. **Freeze & dual deploy** — pin `CLASSIC_REF`, update `deploy.yml` to publish `/classic/`.
+   Verify v1 still works at both paths. Stages 0–1 change no UI, so they can merge to `main` early;
+   stages 2–7 stay on the branch until release so the live tool never shows a half-built v2.
 1. **Data model & migration** — `src/model/v2`, `src/model/legacy`, `src/migrate`, library store,
    tests (fixtures from `tests/fixture.ts` + `src/model/sample.ts`): round-trip, field-preservation
    checklist, unmappable ratings stay unanswered, future-version rejection, invalid-file safety.
