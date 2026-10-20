@@ -12,8 +12,10 @@ import {
   QUALITY,
   optionLabel,
 } from '../../content/scales'
-import { ReviewSchema, type Review } from '../../model/legacy/v1'
-import type { ProgrammeReview } from '../../model/v2/schema'
+import { z } from 'zod'
+import { ActionSchema, ModuleSchema, ReviewSchema, type Review } from '../../model/legacy/v1'
+import { MAX_PRIORITIES } from '../../model/v2/defaults'
+import type { ModuleReview, ProgrammeReview } from '../../model/v2/schema'
 
 export interface LegacyItem {
   label: string
@@ -90,3 +92,33 @@ export function programmeLegacy(review: ProgrammeReview): Record<string, LegacyI
     ]),
   }
 }
+
+/** v1 module data with no v2 question, from a migrated module review. */
+export function moduleLegacy(review: ModuleReview): Record<string, LegacyItem[]> {
+  if (review.legacy?.source !== 'v1') return {}
+  const r = V1ModuleOriginalSchema.safeParse(review.legacy.original)
+  if (!r.success) return {}
+  const { module: m, actions } = r.data
+  const items = (list: [string, string][]): LegacyItem[] =>
+    list.filter(([, v]) => v.trim()).map(([label, value]) => ({ label, value }))
+  const steps = actions.filter((a) => a.text.trim())
+  return {
+    context: items([['Module context reflection', m.contextReflection]]),
+    teaching: items([['Learning and teaching rating', optionLabel(QUALITY, m.ltRating as never)]]),
+    reflection: items(
+      steps
+        .slice(MAX_PRIORITIES)
+        .map((a) => [
+          'Further module action from the v1 action plan',
+          [a.text, a.owner && `Owner: ${a.owner}`, a.timescale && `Timescale: ${a.timescale}`]
+            .filter(Boolean)
+            .join(' · '),
+        ]),
+    ),
+  }
+}
+
+const V1ModuleOriginalSchema = z.object({
+  module: ModuleSchema,
+  actions: z.array(ActionSchema).default([]),
+})

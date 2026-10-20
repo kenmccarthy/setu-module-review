@@ -5,6 +5,7 @@ import { downloadJson, reviewFileName } from '../../store/download'
 import { kindLabel, reviewTitle } from './labels'
 import { navFor } from './nav'
 import { programmeProgress } from '../../logic/v2/programmeSummary'
+import { moduleProgress } from '../../logic/v2/moduleSummary'
 import { Button } from '../fields'
 
 export function Shell() {
@@ -22,7 +23,11 @@ export function Shell() {
   const nav = navFor(
     inReview?.kind,
     inReview?.id,
-    inReview?.kind === 'programme' ? programmeProgress(inReview) : {},
+    !inReview
+      ? {}
+      : inReview.kind === 'programme'
+        ? programmeProgress(inReview)
+        : moduleProgress(inReview),
   )
   const isPrint = location.pathname.endsWith('/print')
 

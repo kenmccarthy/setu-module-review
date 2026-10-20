@@ -14,6 +14,14 @@ import {
   ProgrammeProgression,
 } from '../programme/sections'
 import { ProgrammeSummary } from '../programme/ProgrammeSummary'
+import {
+  ModuleAssessments,
+  ModuleContext,
+  ModuleOutcomes,
+  ModuleReflection,
+  ModuleTeaching,
+} from '../module/sections'
+import { ModuleSummary } from '../module/ModuleSummary'
 
 /** Opens the review named in the URL and renders the requested section. */
 export function ReviewRoute({ kind }: { kind: ReviewKind }) {
@@ -63,7 +71,30 @@ export function ReviewRoute({ kind }: { kind: ReviewKind }) {
       </>
     )
   }
+  if (kind === 'module' && section in MODULE_PAGES) {
+    const meta = MODULE_SECTIONS.find((s) => s.id === section)!
+    const Page = MODULE_PAGES[section]
+    return (
+      <>
+        <PageTitle
+          part={'number' in meta ? `Module review · Section ${meta.number} of 4` : 'Module review'}
+          title={meta.label}
+        />
+        <Page />
+        <SectionPager kind={kind} section={section} />
+      </>
+    )
+  }
   return <PlaceholderSection kind={kind} section={section} />
+}
+
+const MODULE_PAGES: Record<string, () => React.ReactNode> = {
+  context: ModuleContext,
+  outcomes: ModuleOutcomes,
+  teaching: ModuleTeaching,
+  assessment: ModuleAssessments,
+  reflection: ModuleReflection,
+  summary: ModuleSummary,
 }
 
 const PROGRAMME_PAGES: Record<string, () => React.ReactNode> = {

@@ -174,4 +174,8 @@ One v1 review → one ProgrammeReview + one ModuleReview per v1 module (linked: 
       and progress (`src/logic/v2/programmeSummary.ts`), read-only v1 answers beside each section
       (`src/logic/v2/legacy.ts`), prompts export for module teams, print/copy/JSON. New reviews are
       saved only once something is entered. v1 programme pages removed.
-- [ ] Stages 4–8.
+- [x] Stage 4 — Module Review: context + four sections + summary (`src/features/module`), assessment
+      cards with the three core questions and an optional "Explore Assessment Design in More Detail"
+      holding the v1 parameters, optional individual learning-outcome review, pure summary and
+      progress (`src/logic/v2/moduleSummary.ts`), module contribution export. v1 module pages removed.
+- [ ] Stages 5–8.
