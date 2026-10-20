@@ -5,6 +5,7 @@ import { MODULE_SECTIONS, PROGRAMME_SECTIONS, reviewPath } from '../../component
 import type { ReviewKind } from '../../model/v2/schema'
 import { useWorkspace } from '../../store/workspace'
 import { SectionPager } from './SectionPager'
+import type { HelpAnchor } from '../../content/help'
 import {
   ProgrammeCapabilities,
   ProgrammeCoherence,
@@ -75,6 +76,7 @@ export function ReviewRoute({ kind }: { kind: ReviewKind }) {
                 : 'Programme review'
             }
             title={meta.label}
+            helpAnchor={HELP_FOR[section] ?? 'programme'}
           />
         </div>
         <Page />
@@ -93,6 +95,7 @@ export function ReviewRoute({ kind }: { kind: ReviewKind }) {
         <PageTitle
           part={'number' in meta ? `Module review · Section ${meta.number} of 4` : 'Module review'}
           title={meta.label}
+          helpAnchor={HELP_FOR[section] ?? 'module'}
         />
         <Page />
         <SectionPager kind={kind} section={section} />
@@ -100,6 +103,13 @@ export function ReviewRoute({ kind }: { kind: ReviewKind }) {
     )
   }
   return <PlaceholderSection kind={kind} section={section} />
+}
+
+/** Pages whose guide is not the general one for their review. */
+const HELP_FOR: Record<string, HelpAnchor> = {
+  contributions: 'connecting',
+  'programme-priorities': 'connecting',
+  statement: 'statement',
 }
 
 const MODULE_PAGES: Record<string, () => React.ReactNode> = {

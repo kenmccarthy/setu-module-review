@@ -192,4 +192,8 @@ One v1 review → one ProgrammeReview + one ModuleReview per v1 module (linked: 
       Agreed only via a recorded approval (approver + date), with a warning if edited afterwards;
       copy, print/PDF with optional evidence appendix, structured JSON export; v1 statement text shown
       for reuse. The remaining v1 screens, store and logic were removed.
-- [ ] Stages 7–8.
+- [x] Stage 7 — Documentation: in-app user guide rewritten for the two reviews, the connected
+      workflow, the statement, earlier reviews, saving and accessibility (`src/content/help.ts`), with
+      "Guide for this section" links on every review page; README rewritten; implementation summary
+      with acceptance-criteria mapping and limitations in `docs/implementation-summary.md`.
+- [ ] Stage 8 — release.
