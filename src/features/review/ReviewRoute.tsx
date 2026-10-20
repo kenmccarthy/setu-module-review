@@ -24,6 +24,7 @@ import {
 import { ModuleSummary } from '../module/ModuleSummary'
 import { ImportedProgrammePriorities } from '../module/ProgrammePriorities'
 import { ModuleContributions } from '../programme/ModuleContributions'
+import { StatementPage } from '../statement/StatementPage'
 
 /** Opens the review named in the URL and renders the requested section. */
 export function ReviewRoute({ kind }: { kind: ReviewKind }) {
@@ -65,12 +66,17 @@ export function ReviewRoute({ kind }: { kind: ReviewKind }) {
     const Page = PROGRAMME_PAGES[section]
     return (
       <>
-        <PageTitle
-          part={
-            'number' in meta ? `Programme review · Section ${meta.number} of 5` : 'Programme review'
-          }
-          title={meta.label}
-        />
+        {/* The printed statement carries its own heading. */}
+        <div className={section === 'statement' ? 'no-print' : ''}>
+          <PageTitle
+            part={
+              'number' in meta
+                ? `Programme review · Section ${meta.number} of 5`
+                : 'Programme review'
+            }
+            title={meta.label}
+          />
+        </div>
         <Page />
         <SectionPager kind={kind} section={section} />
       </>
@@ -108,6 +114,7 @@ const MODULE_PAGES: Record<string, () => React.ReactNode> = {
 
 const PROGRAMME_PAGES: Record<string, () => React.ReactNode> = {
   contributions: ModuleContributions,
+  statement: StatementPage,
   context: ProgrammeContext,
   capabilities: ProgrammeCapabilities,
   progression: ProgrammeProgression,

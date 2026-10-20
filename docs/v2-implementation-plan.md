@@ -184,4 +184,12 @@ One v1 review → one ProgrammeReview + one ModuleReview per v1 module (linked: 
       from reviews saved in the same browser; re-imports are recognised, newer/older versions replace
       only after confirmation, programme notes and module responses are kept. Helpers in
       `src/store/exchangeImport.ts`; round-trip tests in `tests/connected.test.ts`.
-- [ ] Stages 6–8.
+- [x] Stage 6 — Programme AI Integration Statement (`src/features/statement/StatementPage.tsx`,
+      `src/logic/v2/statement.ts`): five sections drafted only from recorded answers, each sentence
+      labelled existing practice / proposed development / programme-team decision / module-level
+      observation / to confirm; placeholders for missing answers; team text kept when answers change,
+      with an "updated draft available" notice; optional module examples; Draft → Under review →
+      Agreed only via a recorded approval (approver + date), with a warning if edited afterwards;
+      copy, print/PDF with optional evidence appendix, structured JSON export; v1 statement text shown
+      for reuse. The remaining v1 screens, store and logic were removed.
+- [ ] Stages 7–8.

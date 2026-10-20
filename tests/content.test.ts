@@ -9,8 +9,15 @@ import * as synthesis from '../src/content/synthesis'
 import { COHERENCE } from '../src/content/programme'
 import { HELP_SECTIONS, HELP_SECTION_IDS } from '../src/content/help'
 import { PROGRESSION_PHASES } from '../src/content/scales'
-import { suggestDashboard } from '../src/logic/dashboard'
-import { generateEvidenceSummary } from '../src/logic/statement'
+import * as v2scales from '../src/content/v2/scales'
+import * as v2home from '../src/content/v2/home'
+import * as v2programme from '../src/content/v2/programme'
+import * as v2module from '../src/content/v2/module'
+import * as v2statement from '../src/content/v2/statement'
+import { migrateV1Review } from '../src/migrate/v1ToV2'
+import { statementText } from '../src/logic/v2/statement'
+import { programmeSummaryText } from '../src/logic/v2/programmeSummary'
+import { moduleSummaryText } from '../src/logic/v2/moduleSummary'
 import { sample } from './fixture'
 
 /** Every string reachable from a value, however deeply nested. */
@@ -22,16 +29,30 @@ function strings(value: unknown): string[] {
   return []
 }
 
-const CONTENT = [capabilities, help, moduleContent, programme, scales, statementContent, synthesis]
+const CONTENT = [
+  capabilities,
+  help,
+  moduleContent,
+  programme,
+  scales,
+  statementContent,
+  synthesis,
+  v2scales,
+  v2home,
+  v2programme,
+  v2module,
+  v2statement,
+]
 
 describe('user-facing text', () => {
   it('spells out "section" rather than using §', () => {
     // The § glyph rendered as an unexplained symbol on screen and confused reviewers.
     for (const text of CONTENT.flatMap(strings)) expect(text).not.toContain('§')
-    const review = sample()
+    const { programme, modules } = migrateV1Review(sample())
     const derived = [
-      ...Object.values(suggestDashboard(review)).map((area) => area.reason),
-      ...strings(generateEvidenceSummary(review)),
+      statementText(programme),
+      programmeSummaryText(programme),
+      ...modules.map(moduleSummaryText),
     ]
     for (const text of derived) expect(text).not.toContain('§')
   })

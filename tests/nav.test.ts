@@ -27,33 +27,25 @@ describe('context-aware navigation', () => {
 })
 
 describe('v1 isolation', () => {
-  // The v1 store persists to the key the Classic tool uses; the new app must never load it.
-  it('the running app does not import the v1 store', () => {
-    const sources = import.meta.glob('../src/**/*.{ts,tsx}', {
-      query: '?raw',
-      import: 'default',
-      eager: true,
-    }) as Record<string, string>
-    const join = (from: string, spec: string) => {
-      const parts = from.split('/').slice(0, -1)
-      for (const seg of spec.split('/')) {
-        if (seg === '..') parts.pop()
-        else if (seg !== '.') parts.push(seg)
-      }
-      return parts.join('/')
-    }
-    const seen = new Set<string>()
-    const visit = (file: string) => {
-      if (seen.has(file)) return
-      seen.add(file)
-      for (const [, spec] of sources[file].matchAll(/from '(\.[^']+)'/g)) {
-        const base = join(file, spec)
-        const target = [base + '.ts', base + '.tsx', base + '/index.ts'].find((f) => f in sources)
-        if (target) visit(target)
-      }
-    }
-    visit('../src/main.tsx')
-    expect(seen.has('../src/features/home/HomePage.tsx')).toBe(true)
-    expect(seen.has('../src/store/reviewStore.ts')).toBe(false)
+  // The Classic tool, served from the same origin, owns this localStorage key. The new app may
+  // read it for migration but must never write it, so it is named in one place only and no code
+  // uses zustand's persist middleware (which is what wrote it in v1).
+  const sources = import.meta.glob('../src/**/*.{ts,tsx}', {
+    query: '?raw',
+    import: 'default',
+    eager: true,
+  }) as Record<string, string>
+
+  it('names the v1 storage key only in the library module', () => {
+    const files = Object.entries(sources)
+      .filter(([, src]) => src.includes("'setu-ai-review'"))
+      .map(([f]) => f)
+    expect(files).toEqual(['../src/store/library.ts'])
+  })
+
+  it('does not use the persist middleware anywhere', () => {
+    expect(Object.entries(sources).filter(([, src]) => /zustand\/middleware'/.test(src))).toEqual(
+      [],
+    )
   })
 })

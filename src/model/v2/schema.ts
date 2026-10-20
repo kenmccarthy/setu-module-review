@@ -211,7 +211,13 @@ export const StatementV2Schema = z.object({
   approachRationale: str(),
   /** Team-edited text per section id. Empty means "use the generated draft". */
   sections: z.record(z.string(), z.string()).default({}),
+  /** The generated draft of each section when the team first edited it, to tell when it changes. */
+  sectionBasis: z.record(z.string(), z.string()).default({}),
+  /** Include supporting examples drawn from module contributions in the draft. */
+  includeModuleExamples: z.boolean().default(true),
   includeEvidenceAppendix: z.boolean().default(false),
+  /** The full statement text at the moment it was marked agreed. */
+  agreedSnapshot: str(),
   status: scale(STATEMENT_STATUSES).default('draft'),
   programmeName: str(),
   approvalDate: str(),
