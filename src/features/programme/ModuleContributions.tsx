@@ -116,7 +116,7 @@ export function ModuleContributions() {
         <Callout title="No module contributions yet" tone="note">
           <p>
             This programme review can be completed without them. Module contributions can be added
-            at any time, and having none does not indicate a weakness in the programme.
+            at any time.
           </p>
         </Callout>
       ) : (
