@@ -65,6 +65,7 @@ export function ProgrammeContext() {
           <NumberInput
             label="Number of stages / years"
             hint={PROGRAMME_CONTEXT.stagesHint}
+            hintBelow
             value={r.stages}
             min={1}
             max={8}

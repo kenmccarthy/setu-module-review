@@ -3,20 +3,23 @@ import { useId } from 'react'
 interface FieldProps {
   label: React.ReactNode
   hint?: React.ReactNode
+  /** Show the hint under the control, so it lines up with neighbouring fields in a grid. */
+  hintBelow?: boolean
   children: (id: string) => React.ReactNode
   className?: string
 }
 
 /** Label + optional hint wrapper; passes a generated id to the control. */
-export function Field({ label, hint, children, className = '' }: FieldProps) {
+export function Field({ label, hint, hintBelow, children, className = '' }: FieldProps) {
   const id = useId()
   return (
     <div className={`space-y-1.5 ${className}`}>
       <label htmlFor={id} className="block text-sm font-medium text-slate-800">
         {label}
       </label>
-      {hint && <p className="text-sm text-slate-500">{hint}</p>}
+      {hint && !hintBelow && <p className="text-sm text-slate-500">{hint}</p>}
       {children(id)}
+      {hint && hintBelow && <p className="text-sm text-slate-500">{hint}</p>}
     </div>
   )
 }
@@ -130,6 +133,7 @@ export function SelectInput<T extends string>({
 export function NumberInput({
   label,
   hint,
+  hintBelow,
   value,
   onChange,
   min,
@@ -138,6 +142,7 @@ export function NumberInput({
 }: {
   label: React.ReactNode
   hint?: React.ReactNode
+  hintBelow?: boolean
   value: number
   onChange: (v: number) => void
   min?: number
@@ -145,7 +150,7 @@ export function NumberInput({
   className?: string
 }) {
   return (
-    <Field label={label} hint={hint} className={className}>
+    <Field label={label} hint={hint} hintBelow={hintBelow} className={className}>
       {(id) => (
         <input
           id={id}
