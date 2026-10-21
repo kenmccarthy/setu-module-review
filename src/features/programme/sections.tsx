@@ -62,12 +62,6 @@ export function ProgrammeContext() {
             onChange={(nfqLevel) => set({ nfqLevel })}
             placeholder="e.g. 8"
           />
-          <TextInput
-            label="Programme duration"
-            value={r.duration}
-            onChange={(duration) => set({ duration })}
-            placeholder="e.g. 4 years"
-          />
           <NumberInput
             label="Number of stages / years"
             hint={PROGRAMME_CONTEXT.stagesHint}

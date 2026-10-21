@@ -4,7 +4,7 @@ export const STATEMENT = {
   title: 'Programme AI Integration Statement',
   lede: 'A concise statement of the programme’s approach to AI, drafted from your programme review for the team to edit and agree. It can be used as supporting documentation for Academic Unit Review, programme review and external review.',
   provisional:
-    'A provisional statement can be drafted now. Module reviews are not required; where module contributions have been added, they can provide supporting examples.',
+    'A provisional statement can be drafted now. Where module contributions have been added, they can provide supporting examples.',
   approachQuestion: 'Which best describes the programme’s overall approach to AI?',
   approachRationale: 'Why has the programme adopted this approach? (optional)',
   wordGuide: 'Around 400–600 words, where the evidence supports that length.',
