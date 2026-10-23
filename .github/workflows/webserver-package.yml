@@ -1,0 +1,76 @@
+name: Build SETU web-server package
+# Builds the complete static site for https://ai.setu.ie/review/ (current tool) and
+# https://ai.setu.ie/review/classic/ (Classic tool) and uploads it as a downloadable artifact for
+# manual upload to the SETU web server. It does not deploy anything: GitHub Pages is published
+# separately by deploy.yml, which this workflow does not touch.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  # Must match CLASSIC_REF in deploy.yml (tests/workflows.test.ts checks this).
+  CLASSIC_REF: 925fa573e104c7018bd5e8658d235e035933b935
+  SITE_BASE: /review/
+concurrency:
+  group: webserver-package-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      # Build exactly the branch's latest commit (not GitHub's temporary PR merge commit), so the
+      # commit recorded in build-info.txt can be found in the repository.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - name: Build the current tool for ${{ env.SITE_BASE }}
+        run: npm run build -- --outDir site --emptyOutDir
+        env:
+          VITE_BASE: ${{ env.SITE_BASE }}
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.CLASSIC_REF }}
+          path: classic-src
+      - name: Build the Classic tool for ${{ env.SITE_BASE }}classic/
+        run: npm ci && npm run build
+        working-directory: classic-src
+        env:
+          VITE_BASE: ${{ env.SITE_BASE }}classic/
+      - run: cp -r classic-src/dist site/classic
+      - name: Record build information
+        id: info
+        run: |
+          short=$(git rev-parse --short=7 HEAD)
+          echo "short=$short" >> "$GITHUB_OUTPUT"
+          cat > site/build-info.txt <<EOF
+          SETU AI Integration Review: web-server package
+          Commit:        $(git rev-parse HEAD)
+          Short commit:  $short
+          Branch/ref:    ${{ github.head_ref || github.ref_name }}
+          Built (UTC):   $(date -u +%Y-%m-%dT%H:%M:%SZ)
+          Workflow run:  ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          Classic tool:  built from commit ${{ env.CLASSIC_REF }}
+          Serve at:      https://ai.setu.ie${{ env.SITE_BASE }} (Classic tool at ${{ env.SITE_BASE }}classic/)
+          EOF
+          cat site/build-info.txt
+      - name: Check the assembled site
+        run: node scripts/verify-site.mjs site "$SITE_BASE"
+      # GitHub serves an artifact as a ZIP named after it, so the download is
+      # setu-ai-review-webserver-<commit>.zip with index.html, assets/ and classic/ at its top level.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: setu-ai-review-webserver-${{ steps.info.outputs.short }}
+          path: site/
+          if-no-files-found: error
+          retention-days: 90
