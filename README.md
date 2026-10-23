@@ -114,6 +114,13 @@ docs/               implementation plan and implementation summary
 
 ## Deployment
 
+A second workflow, `.github/workflows/webserver-package.yml`, builds the same site for
+`https://ai.setu.ie/review/` (Classic tool at `/review/classic/`) and offers it as a downloadable
+artifact for manual upload to the SETU web server. It deploys nothing. See
+[docs/setu-webserver-deployment.md](docs/setu-webserver-deployment.md).
+
+### GitHub Pages
+
 `.github/workflows/deploy.yml` runs on every push to `main` (or manually via "Run workflow"). It
 builds the app with `VITE_BASE=/<repo-name>/`, builds the Classic tool from `CLASSIC_REF` with
 `VITE_BASE=/<repo-name>/classic/` into `dist/classic/`, and publishes both as one GitHub Pages
