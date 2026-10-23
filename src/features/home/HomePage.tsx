@@ -100,6 +100,7 @@ export function HomePage() {
           </a>{' '}
           for comparison.
         </p>
+        <p>{HOME.credits}</p>
       </Callout>
     </div>
   )
