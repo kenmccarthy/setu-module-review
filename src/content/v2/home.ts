@@ -32,4 +32,6 @@ export const HOME = {
     time: 'About 10–15 minutes for an initial review',
   },
   data: 'Everything you enter is saved automatically in this browser only. Nothing is sent to a server. Export a review to keep a backup or to share it with colleagues.',
+  credits:
+    'Developed by Dr Hazel Farrell, Gen AI Academic Lead with support from Ken McCarthy, Head of Centre for Academic Practice, SETU. Built using ChatGPT and Claude Code.',
 }
