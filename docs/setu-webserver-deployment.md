@@ -104,7 +104,7 @@ Open each address in a private window, or refresh with Ctrl/Cmd + Shift + R.
       page opens it.
 - [ ] The programme's **Statement** page shows five sections, and **Print / save as PDF** opens
       the print preview.
-- [ ] The **Classic tool** link on the home page opens `https://ai.setu.ie/review/classic/`.
+- [ ] Opening `https://ai.setu.ie/review/classic/` shows the Classic tool.
 - [ ] The Classic tool shows **AI Programme & Module Review Tool**, and its menu links work.
 
 If a page is blank, check that `index.html` is directly in the `/review/` directory and that

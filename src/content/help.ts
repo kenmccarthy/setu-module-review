@@ -254,7 +254,7 @@ export const HELP_SECTIONS: HelpSection[] = [
     blocks: [
       {
         kind: 'p',
-        text: 'The previous version of the tool held one combined review (Parts A–D). It remains available, unchanged, as the Classic tool, linked from the home page, so earlier work can still be opened and compared.',
+        text: 'The previous version of the tool held one combined review (Parts A–D). It remains available, unchanged, as the Classic tool, so earlier work can still be opened and compared.',
       },
       {
         kind: 'p',
