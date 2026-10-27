@@ -8,7 +8,7 @@ import { downloadJson, libraryFileName } from '../../store/download'
 import { libraryBundle } from '../../store/library'
 import { useWorkspace } from '../../store/workspace'
 import { ImportButton } from './ImportButton'
-import { CLASSIC_URL, LegacyBanner } from './LegacyBanner'
+import { LegacyBanner } from './LegacyBanner'
 import { saveSample } from './sample'
 
 export function HomePage() {
@@ -91,16 +91,11 @@ export function HomePage() {
       </section>
 
       <Callout title="About these tools" tone="note">
-        <p>{HOME.developmental}</p>
-        <p>{HOME.data}</p>
-        <p>
-          The previous, single combined review remains available as the{' '}
-          <a className="font-medium underline" href={CLASSIC_URL}>
-            Classic tool
-          </a>{' '}
-          for comparison.
-        </p>
-        <p>{HOME.credits}</p>
+        <div className="space-y-5">
+          <p>{HOME.developmental}</p>
+          <p>{HOME.data}</p>
+          <p>{HOME.credits}</p>
+        </div>
       </Callout>
     </div>
   )
