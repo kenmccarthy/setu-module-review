@@ -25,6 +25,9 @@ teams, and module teams can export a module contribution for the programme revie
 overwrite unrelated work, repeat imports are recognised, and newer versions replace older ones
 only after confirmation.
 
+An accessibility check (WCAG 2.2 AA) and what still needs testing are in
+[docs/accessibility.md](docs/accessibility.md).
+
 A user guide is built into the app at `/help` (linked from every review page as "Guide for this
 section").
 

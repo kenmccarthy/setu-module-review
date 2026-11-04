@@ -73,7 +73,7 @@ export function ProgressionMap({
                             className={`h-7 w-7 rounded border text-xs font-semibold transition ${
                               on
                                 ? 'border-brand-700 bg-brand-600 text-white'
-                                : 'border-slate-200 bg-white text-slate-400 hover:border-brand-400'
+                                : 'border-slate-200 bg-white text-slate-500 hover:border-brand-400'
                             }`}
                           >
                             {ph.label.charAt(0)}

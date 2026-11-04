@@ -28,7 +28,7 @@ export function ListEditor({
       <ol className="space-y-2">
         {value.map((item, i) => (
           <li key={item.id} className="flex items-start gap-2">
-            <span className="mt-2 w-5 shrink-0 text-sm text-slate-400" aria-hidden="true">
+            <span className="mt-2 w-5 shrink-0 text-sm text-slate-500" aria-hidden="true">
               {i + 1}.
             </span>
             <textarea

@@ -90,7 +90,7 @@ export function Shell() {
                       }
                     >
                       {item.number && (
-                        <span className="w-5 shrink-0 text-xs text-slate-400" aria-hidden="true">
+                        <span className="w-5 shrink-0 text-xs text-slate-500" aria-hidden="true">
                           {item.number}
                         </span>
                       )}

@@ -61,12 +61,12 @@ export function AssessmentCard({ index, open }: { index: number; open?: boolean 
   return (
     <details open={open} className="group rounded-lg border border-slate-200 bg-white shadow-sm">
       <summary className="flex cursor-pointer list-none flex-wrap items-center gap-x-3 gap-y-1 px-5 py-4">
-        <span className="font-semibold text-slate-900">{name}</span>
+        <h2 className="text-base font-semibold text-slate-900">{name}</h2>
         <span className="text-sm text-slate-500">
           {status}
           {assessmentAnswered(a) && <span className="sr-only"> (answered)</span>}
         </span>
-        <span aria-hidden="true" className="ml-auto text-slate-400 group-open:rotate-180">
+        <span aria-hidden="true" className="ml-auto text-slate-500 group-open:rotate-180">
           ▾
         </span>
       </summary>
@@ -183,7 +183,7 @@ function Sub({
 }) {
   return (
     <div className="space-y-3 border-t border-slate-100 pt-4 first:border-0 first:pt-0">
-      <h4 className="font-semibold text-slate-900">{title}</h4>
+      <h3 className="font-semibold text-slate-900">{title}</h3>
       {question && <KeyQuestion>{question}</KeyQuestion>}
       {children}
     </div>
