@@ -21,7 +21,7 @@ export function Consider({
         aria-expanded={isOpen}
       >
         <span>{title}</span>
-        <span className="text-slate-400">{isOpen ? '−' : '+'}</span>
+        <span className="text-slate-500">{isOpen ? '−' : '+'}</span>
       </button>
       {isOpen && (
         <ul className="list-disc space-y-0.5 px-3 pb-3 pl-8 text-slate-600">

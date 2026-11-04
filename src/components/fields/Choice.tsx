@@ -74,10 +74,10 @@ export function Disclosure({
     <details open={open} className="group rounded-md border border-slate-200 bg-slate-50 text-sm">
       <summary className="flex cursor-pointer list-none items-center justify-between px-3 py-2 font-medium text-slate-700">
         <span>{summary}</span>
-        <span aria-hidden="true" className="text-slate-400 group-open:hidden">
+        <span aria-hidden="true" className="text-slate-500 group-open:hidden">
           +
         </span>
-        <span aria-hidden="true" className="hidden text-slate-400 group-open:inline">
+        <span aria-hidden="true" className="hidden text-slate-500 group-open:inline">
           −
         </span>
       </summary>

@@ -90,9 +90,10 @@ production build served under `/setu-module-review/`.
 - **Statement wording is template-based.** Sentences are assembled from recorded answers and
   will often need rewording by the team. A fully migrated sample produces about 370 words, below
   the 400–600 guide, until the remaining questions are answered.
-- **Accessibility testing was limited.** Checks were automated in Chromium; there has been no
-  formal WCAG audit, screen-reader testing or testing in other browsers. A short accessibility
-  review with real users is recommended before wider rollout.
+- **Accessibility testing is partly done.** Automated (axe-core) and scripted keyboard, zoom,
+  reflow and print checks pass on every screen, after the fixes listed in
+  `docs/accessibility.md`. Screen-reader testing, other browsers and testing with disabled users
+  are still needed before wider rollout; the report lists what to check.
 - **Browser tests are not in CI.** The Playwright walk-throughs were run during development; CI
   runs lint, type checking, unit tests and the build.
 - **Some v1 content remains in use.** `src/content/{module,capabilities,scales,programme,synthesis,statement}.ts`
